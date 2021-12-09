@@ -1,4 +1,6 @@
 # setting up a microservices system
+## Actively Working:
+- User service to handle users
 ## To do list:
 - Services to set up:
   - User service to handle users
