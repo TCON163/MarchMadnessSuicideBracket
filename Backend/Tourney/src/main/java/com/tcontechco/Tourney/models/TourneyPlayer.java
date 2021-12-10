@@ -32,7 +32,7 @@ public class TourneyPlayer {
     // Currently, using a list to hold the picks of the user, but probably
     // should look into a set. So, that they can't add the same Team twice.
     @ManyToOne
-    private List<Team> picks;
+    private List<Picks> picks;
 
     @Column
     private Boolean alive;
