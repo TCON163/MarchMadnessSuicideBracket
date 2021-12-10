@@ -19,7 +19,12 @@ public class Picks {
     private Integer id;
 
     @OneToOne
+    @MapsId
     private Team team;
+
+    @OneToOne
+    @MapsId
+    private TourneyPlayer tourneyPlayer;
 
     @Column
     private Boolean winner;
