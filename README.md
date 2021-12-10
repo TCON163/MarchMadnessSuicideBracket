@@ -1,3 +1,7 @@
+***12/10/2021  Andrew and I have decide to put a pause on this repo, and start a monolithic architect repo. Then come back and converted it into microservices.***
+
+
+
 # MarchMadnessSuicideBracket
 a site to host Suicide Brackets for NCAA Basketball Tourney in March.
 
