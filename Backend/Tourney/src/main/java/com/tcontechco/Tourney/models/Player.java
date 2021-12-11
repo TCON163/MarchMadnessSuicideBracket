@@ -12,8 +12,10 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Player {
 
+
+
     @Id
-    @Column(name = "playerId")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer playerId;
 
     @NonNull

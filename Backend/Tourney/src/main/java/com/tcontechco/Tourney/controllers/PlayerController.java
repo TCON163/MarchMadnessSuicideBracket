@@ -27,7 +27,13 @@ public class PlayerController {
 
     @PostMapping("/players")
     public ResponseEntity<Player> createOrSavePlayer(@RequestBody Player player){
-        return ResponseEntity.ok(service.createPlayer(player));
+        Player p = new Player();
+        p.setFirstName(player.getFirstName());
+        p.setLastName(player.getLastName());
+        p.setUsername(player.getUsername());
+        p.setEmail(player.getEmail());
+        p.setPassword(player.getPassword());
+        return ResponseEntity.ok(service.createPlayer(p));
     }
 
     @DeleteMapping("/players")
