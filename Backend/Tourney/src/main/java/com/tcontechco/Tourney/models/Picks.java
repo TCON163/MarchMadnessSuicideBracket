@@ -8,21 +8,22 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table
+@Table(name = "pick")
 @Getter
 @Setter
 @NoArgsConstructor
 public class Picks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pick_id", unique = true)
     private Integer id;
 
-    @OneToOne
-    @MapsId
+    @ManyToOne
+    @JoinColumn
     private Team team;
 
     @ManyToOne
-    @MapsId
+    @JoinColumn
     private TourneyPlayer tourneyPlayer;
 
     @Column

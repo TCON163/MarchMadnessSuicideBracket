@@ -4,9 +4,10 @@ package com.tcontechco.Tourney.models;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
-@Table
+@Table(name = "player")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -40,5 +41,9 @@ public class Player {
 
     @OneToOne
     private Tourney tourney;
+
+    @OneToMany(mappedBy = "player")
+    private List<TourneyPlayer> tp;
+
 
 }

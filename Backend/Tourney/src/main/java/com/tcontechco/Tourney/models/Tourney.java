@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
-@Table
+@Table(name = "tourney")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -24,7 +24,7 @@ public class Tourney {
     @MapsId
     private Player admin;
 
-    @OneToMany
+    @OneToMany(mappedBy = "tourney", targetEntity = TourneyPlayer.class)
     private List<TourneyPlayer> players;
 
 }

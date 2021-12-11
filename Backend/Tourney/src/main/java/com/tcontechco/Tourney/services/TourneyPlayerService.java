@@ -34,7 +34,7 @@ public class TourneyPlayerService {
 
     public List<Picks> picksByTPID(Integer id){
         TourneyPlayer tp = repo.findById(id).orElseThrow(() -> new ResourceDoesNotExist("No TP with ID"));
-        return tp.getPicks();
+        return tp.getTpPicks();
     }
 
     public TourneyPlayer createTP(TourneyPlayer tp) { return repo.save(tp);}
