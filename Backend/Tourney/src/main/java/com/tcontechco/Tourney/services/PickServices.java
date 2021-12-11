@@ -22,7 +22,7 @@ public class PickServices {
     }
 
     public List<Picks> getAllPicksWithPlayerId(Integer id){
-        return repo.findAll().stream().filter( picks -> picks.getTourneyPlayer().getTourneyPlayerId().equals(id) ).collect(Collectors.toList());
+        return repo.findAll().stream().filter( picks -> picks.getPlayer().getTPId().equals(id)).collect(Collectors.toList());
     }
 
     public Picks createOrUpdatePicks(Picks picks){

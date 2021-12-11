@@ -1,10 +1,12 @@
 package com.tcontechco.Tourney.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "player")
@@ -17,6 +19,7 @@ public class Player {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "player_id")
     private Integer playerId;
 
     @NonNull
@@ -28,22 +31,29 @@ public class Player {
     private String lastName;
 
     @NonNull
-    @Column(name = "username", unique = true)
+    @Column(name = "username")
     private String username;
 
     @NonNull
     @Column(name = "password")
+
     private String password;
 
     @NonNull
     @Column
     private String email;
 
-    @OneToOne
-    private Tourney tourney;
 
-    @OneToMany(mappedBy = "player")
-    private List<TourneyPlayer> tp;
+
+
+
+    @OneToOne(mappedBy = "player")
+    @JsonIgnore
+    private Admin admin;
+
+    @OneToOne(mappedBy = "player")
+    @JsonIgnore
+    private TPlayer tPlayer;
 
 
 }

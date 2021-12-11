@@ -6,32 +6,35 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table(name = "tourneyPlayer")
+@Table
 @Getter
 @Setter
 @NoArgsConstructor
-public class TourneyPlayer {
+public class TPlayer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tourneyPlayerId;
+    @Column(name = "tp_id", unique = true)
+    private Integer tPId;
 
-    @ManyToOne
-    @JoinColumn(name = "player_id", nullable = false)
+    @OneToOne
+    @MapsId
     private Player player;
 
-    @ManyToOne
-    @JoinColumn(name="tourney_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="tp_Id")
     private Tourney tourney;
 
 
     // Currently, using a list to hold the picks of the user, but probably
     // should look into a set. So, that they can't add the same Team twice.
-    @OneToMany(mappedBy = "tourneyPlayer", targetEntity = Picks.class)
-    private List<Picks> tpPicks;
+    @OneToMany(mappedBy = "player")
+    private List<Picks> tpPicks = new ArrayList<>();
 
     @Column
     private Boolean alive;

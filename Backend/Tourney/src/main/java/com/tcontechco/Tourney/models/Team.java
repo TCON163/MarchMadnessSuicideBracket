@@ -16,7 +16,7 @@ import java.util.List;
 public class Team {
     @Id
     @Column(name = "team_id")
-    private Integer id;
+    private Integer teamId;
 
     @Column
     private String teamName;

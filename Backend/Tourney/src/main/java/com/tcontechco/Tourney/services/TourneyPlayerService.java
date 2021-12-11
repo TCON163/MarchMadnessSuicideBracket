@@ -2,8 +2,10 @@ package com.tcontechco.Tourney.services;
 
 import com.tcontechco.Tourney.exceptions.ResourceDoesNotExist;
 import com.tcontechco.Tourney.models.Picks;
-import com.tcontechco.Tourney.models.TourneyPlayer;
+import com.tcontechco.Tourney.models.TPlayer;
+
 import com.tcontechco.Tourney.repos.TourneyPlayerRepo;
+import com.tcontechco.Tourney.repos.TourneyRepo;
 import net.bytebuddy.pool.TypePool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -18,28 +21,32 @@ import java.util.stream.Collectors;
 public class TourneyPlayerService {
 
     private final TourneyPlayerRepo repo;
+    private final TourneyRepo tourneyRepo;
 
     @Autowired
-    public TourneyPlayerService(TourneyPlayerRepo repo) { this.repo = repo;}
-
-    public List<TourneyPlayer> getAllTourneyPlayers() {return repo.findAll();}
-
-    public List<TourneyPlayer> getTPwithTourneyId(Integer id){
-        return repo.findAll().stream().filter(t -> t.getTourney().getTourneyId().equals(id)).collect(Collectors.toList());
+    public TourneyPlayerService(TourneyPlayerRepo repo, TourneyRepo tourneyRepo) {
+        this.repo = repo;
+        this.tourneyRepo=tourneyRepo;
     }
 
-    public TourneyPlayer findById(Integer id) {
+    public List<TPlayer> getAllTourneyPlayers() {return repo.findAll();}
+
+    public Set<TPlayer> getTPwithTourneyId(Integer id){
+        return tourneyRepo.findById(id).orElseThrow(()-> new ResourceDoesNotExist("Tourney not found")).getPlayers();
+    }
+
+    public TPlayer findById(Integer id) {
         return repo.findById(id).orElseThrow(()-> new ResourceDoesNotExist("TourneyPlayer ID does not exist."));
     }
 
-    public List<Picks> picksByTPID(Integer id){
-        TourneyPlayer tp = repo.findById(id).orElseThrow(() -> new ResourceDoesNotExist("No TP with ID"));
-        return tp.getTpPicks();
-    }
+//    public List<Picks> picksByTPID(Integer id){
+//        TPlayer tp = repo.findById(id).orElseThrow(() -> new ResourceDoesNotExist("No TP with ID"));
+//        return tp.getTpPicks();
+//    }
 
-    public TourneyPlayer createTP(TourneyPlayer tp) { return repo.save(tp);}
+    public TPlayer createTP(TPlayer tp) { return repo.save(tp);}
 
-    public TourneyPlayer setTerminated(TourneyPlayer tp) {
+    public TPlayer setTerminated(TPlayer tp) {
         tp.setAlive(false);
         return repo.save(tp);
     }

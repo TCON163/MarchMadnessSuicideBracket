@@ -3,30 +3,26 @@ package com.tcontechco.Tourney.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "pick")
+@Table(name = "admin")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Picks {
+public class Admin {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pick_id", unique = true)
-    private Integer pickId;
+    @Column(name = "admin_id")
+    private Integer adminId;
 
-    @ManyToOne
-    @JoinColumn
-    private Team team;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "admin_id",updatable = false, insertable = false)
+    private Player player;
 
-    @ManyToOne
     @JsonIgnore
-    private TPlayer player;
-
-    @Column
-    private Boolean winner;
+    @OneToOne(mappedBy = "headGuy")
+    private Tourney tourney;
 }

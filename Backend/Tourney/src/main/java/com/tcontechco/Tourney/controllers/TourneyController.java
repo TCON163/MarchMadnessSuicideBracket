@@ -1,9 +1,8 @@
 package com.tcontechco.Tourney.controllers;
 
-import com.tcontechco.Tourney.models.Picks;
-import com.tcontechco.Tourney.models.Player;
-import com.tcontechco.Tourney.models.Tourney;
-import com.tcontechco.Tourney.models.TourneyPlayer;
+import com.tcontechco.Tourney.models.*;
+
+import com.tcontechco.Tourney.services.AdminService;
 import com.tcontechco.Tourney.services.PlayerService;
 import com.tcontechco.Tourney.services.TourneyPlayerService;
 import com.tcontechco.Tourney.services.TourneyService;
@@ -12,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -21,14 +22,17 @@ public class TourneyController {
     private final TourneyService service;
     private final PlayerService playerService;
     private final TourneyPlayerService tpService;
+    private final AdminService adminService;
+
 
 
     //Constructor
     @Autowired
-    public TourneyController(TourneyService service, PlayerService playerService, TourneyPlayerService tpService){
+    public TourneyController(TourneyService service, PlayerService playerService, TourneyPlayerService tpService, AdminService adminService){
         this.service = service;
         this.playerService=playerService;
-        this.tpService = tpService;
+        this.tpService=tpService;
+        this.adminService=adminService;
     }
 
 
@@ -45,39 +49,32 @@ public class TourneyController {
 
 
     //Create a tourney
-    @PostMapping("/tourney/{playerId}")
-    public ResponseEntity<Tourney> createTourney(@PathVariable Integer playerId,@RequestBody Tourney tourney){
-        Tourney t = new Tourney();
-        Player p = playerService.getPlayerById(playerId);
-        t.setTitle(tourney.getTitle());
-        t.setAdmin(p);
-        List<TourneyPlayer> list = new ArrayList<>();
-        t.setPlayers(list);
-        return ResponseEntity.ok(service.createOrSaveTourney(t));
+    @PostMapping("/tourney")
+    public ResponseEntity<Tourney> createTourney(@RequestBody Tourney tourney){
+
+        return ResponseEntity.ok(service.createOrSaveTourney(tourney));
     }
 
     //Get all active TourneyPlayers for a tourney.
     @GetMapping("/tourney/{id}/activeTP")
-    public ResponseEntity<List<TourneyPlayer>> getListOfTpFromTourneyId(@PathVariable Integer id){
+    public ResponseEntity<Set<TPlayer>> getListOfTpFromTourneyId(@PathVariable Integer id){
         return ResponseEntity.ok(service.getActiveTPbyTourneyID(id));
     }
 
     //Add a TourneyPlayer to the Tourney
     @GetMapping("/tourney/{id}/tp/{playerId}")
-    public ResponseEntity<TourneyPlayer> addTPtoTourney(@PathVariable Integer id,@PathVariable Integer playerId){
+    public ResponseEntity<TPlayer> addTPtoTourney(@PathVariable Integer id,@PathVariable Integer playerId){
         Tourney tourney = service.getTourneyById(id);
-        TourneyPlayer newTP = new TourneyPlayer();
-        Player p = playerService.getPlayerById(playerId);
-        List<Picks> picks = new ArrayList<>();
-        newTP.setAlive(true);
-        newTP.setTourney(tourney);
-        newTP.setPlayer(p);
-        newTP.setTpPicks(picks);
 
-        TourneyPlayer tPlayer = tpService.createTP(newTP);
-        tourney.getPlayers().add(tPlayer);
+        TPlayer p = tpService.findById(playerId); ;
+
+
+
+
+
+        tourney.enrollTPlayer(p);
         service.createOrSaveTourney(tourney);
-        return ResponseEntity.ok(tPlayer);
+        return ResponseEntity.ok(p);
 
     }
 }
