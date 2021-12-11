@@ -36,7 +36,10 @@ public class AdminController {
 
         Player p = playerService.getPlayerById(playerId);
         Admin a = new Admin();
+
         a.setPlayer(p);
+        p.setAdmin(a);
+        playerService.createPlayer(p);
 
         return ResponseEntity.ok(adminService.createAdmin(a));
     }

@@ -18,11 +18,11 @@ public class Admin {
     @Column(name = "admin_id")
     private Integer adminId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "admin_id",updatable = false, insertable = false)
+    @OneToOne(mappedBy = "admin")
     private Player player;
 
-    @JsonIgnore
+
     @OneToOne(mappedBy = "headGuy")
+    @JsonIgnore
     private Tourney tourney;
 }

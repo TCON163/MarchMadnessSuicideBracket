@@ -47,11 +47,12 @@ public class Player {
 
 
 
-    @OneToOne(mappedBy = "player")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "admin_id")
     @JsonIgnore
     private Admin admin;
 
-    @OneToOne(mappedBy = "player")
+    @OneToOne(mappedBy = "player", cascade = CascadeType.MERGE)
     @JsonIgnore
     private TPlayer tPlayer;
 

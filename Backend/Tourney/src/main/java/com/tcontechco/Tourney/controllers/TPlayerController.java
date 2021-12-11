@@ -1,7 +1,9 @@
 package com.tcontechco.Tourney.controllers;
 
 import com.tcontechco.Tourney.models.Picks;
+import com.tcontechco.Tourney.models.Player;
 import com.tcontechco.Tourney.models.TPlayer;
+import com.tcontechco.Tourney.services.PlayerService;
 import com.tcontechco.Tourney.services.TourneyPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +16,13 @@ import java.util.Set;
 @RequestMapping("/api/v1")
 public class TPlayerController {
     private final TourneyPlayerService service;
+    private final PlayerService playerService;
 
     @Autowired
-    public TPlayerController(TourneyPlayerService service){ this.service = service;}
+    public TPlayerController(TourneyPlayerService service, PlayerService playerService){
+        this.service = service;
+        this.playerService = playerService;
+    }
 
     @GetMapping("/tp")
     public ResponseEntity<List<TPlayer>>  getAllTP(){return ResponseEntity.ok(service.getAllTourneyPlayers());}
@@ -26,8 +32,12 @@ public class TPlayerController {
         return ResponseEntity.ok(service.getTPwithTourneyId(id));
     }
 
-    @PostMapping("/tp")
-    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp){return ResponseEntity.ok(service.createTP(tp));}
+    @PostMapping("/tp/{playerId}")
+    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer playerId){
+        Player p = playerService.getPlayerById(playerId);
+        tp.setPlayer(p);
+        return ResponseEntity.ok(service.createTP(tp));
+    }
 
 //    @GetMapping("/tp/picks/{id}")
 //    public ResponseEntity<List<Picks>> getPicksByTpId(@PathVariable Integer id){

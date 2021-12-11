@@ -49,8 +49,10 @@ public class TourneyController {
 
 
     //Create a tourney
-    @PostMapping("/tourney")
-    public ResponseEntity<Tourney> createTourney(@RequestBody Tourney tourney){
+    @PostMapping("/tourney/{adminId}")
+    public ResponseEntity<Tourney> createTourney(@RequestBody Tourney tourney, @PathVariable Integer adminId){
+        Admin a = adminService.getByID(adminId);
+        tourney.setHeadGuy(a);
 
         return ResponseEntity.ok(service.createOrSaveTourney(tourney));
     }
@@ -67,12 +69,14 @@ public class TourneyController {
         Tourney tourney = service.getTourneyById(id);
 
         TPlayer p = tpService.findById(playerId); ;
+        p.setTourney(tourney);
 
 
 
 
 
         tourney.enrollTPlayer(p);
+        tpService.createTP(p);
         service.createOrSaveTourney(tourney);
         return ResponseEntity.ok(p);
 

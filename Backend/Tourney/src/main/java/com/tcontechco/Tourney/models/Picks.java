@@ -23,8 +23,8 @@ public class Picks {
     @JoinColumn
     private Team team;
 
-    @ManyToOne
-    @JsonIgnore
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "tPId")
     private TPlayer player;
 
     @Column

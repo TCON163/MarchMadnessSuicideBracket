@@ -1,5 +1,6 @@
 package com.tcontechco.Tourney.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,8 @@ public class TPlayer {
     private Player player;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="tp_Id")
+    @JoinColumn(name="tourney_id")
+    @JsonIgnore
     private Tourney tourney;
 
 
