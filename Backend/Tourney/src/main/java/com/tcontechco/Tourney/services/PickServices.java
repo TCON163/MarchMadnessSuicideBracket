@@ -25,9 +25,19 @@ public class PickServices {
         return repo.findAll().stream().filter( picks -> picks.getTourneyPlayer().getTourneyPlayerId().equals(id) ).collect(Collectors.toList());
     }
 
-    public Picks createPicks(Picks picks){
+    public Picks createOrUpdatePicks(Picks picks){
         return repo.save(picks);
     }
 
-    //update Picks should come with some logic based on if the current team and new team hasn't starting playing yet.
+    public Picks setLoser(Picks picks){
+        picks.setWinner(false);
+        return repo.save(picks);
+    }
+
+    public Picks setWinner(Picks picks){
+        picks.setWinner(true);
+        return repo.save(picks);
+    }
+
+
 }

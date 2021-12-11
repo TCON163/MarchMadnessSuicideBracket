@@ -39,6 +39,11 @@ public class TourneyPlayerService {
 
     public TourneyPlayer createTP(TourneyPlayer tp) { return repo.save(tp);}
 
+    public TourneyPlayer setTerminated(TourneyPlayer tp) {
+        tp.setAlive(false);
+        return repo.save(tp);
+    }
+
 
 
 

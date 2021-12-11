@@ -13,7 +13,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class TourneyPlayer {
 
     @Id
@@ -24,14 +23,14 @@ public class TourneyPlayer {
     @MapsId
     private Player player;
 
-    @OneToOne
+    @ManyToOne
     @MapsId
     private Tourney tourney;
 
 
     // Currently, using a list to hold the picks of the user, but probably
     // should look into a set. So, that they can't add the same Team twice.
-    @ManyToOne
+    @OneToMany
     private List<Picks> picks;
 
     @Column

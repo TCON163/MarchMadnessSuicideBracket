@@ -5,17 +5,13 @@ import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Team {
     @Id
     private Integer id;
@@ -25,6 +21,10 @@ public class Team {
 
     @Column
     private Boolean alive;
+
+    @OneToOne
+    @MapsId
+    private Picks picks;
 
 
 }

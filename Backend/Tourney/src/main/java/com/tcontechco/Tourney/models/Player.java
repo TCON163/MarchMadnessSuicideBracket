@@ -3,17 +3,13 @@ package com.tcontechco.Tourney.models;
 
 import lombok.*;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Player {
 
     @Id
@@ -39,5 +35,8 @@ public class Player {
     @NonNull
     @Column
     private String email;
+
+    @OneToOne
+    private Tourney tourney;
 
 }
