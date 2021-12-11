@@ -10,7 +10,6 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Tourney {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,7 @@ public class Tourney {
     @MapsId
     private Player admin;
 
-    @ManyToOne
+    @OneToMany
     private List<TourneyPlayer> players;
 
 }

@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@RequiredArgsConstructor
 public class Picks {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,7 +21,7 @@ public class Picks {
     @MapsId
     private Team team;
 
-    @OneToOne
+    @ManyToOne
     @MapsId
     private TourneyPlayer tourneyPlayer;
 
