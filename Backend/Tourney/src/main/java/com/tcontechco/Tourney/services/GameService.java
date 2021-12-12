@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
@@ -39,9 +40,12 @@ public class GameService {
         gameRepo.delete(game);
     }
 
-    public void winner(Game game,Team team){
-        game.setWinner(team);
-        gameRepo.save(game);
+    public List<Game> getCompletedGames(){
+        return gameRepo.findAll().stream().filter(game -> game.getCompleted().equals(true)).collect(Collectors.toList());
+    }
+
+    public List<Game> getGamesNotCompleted(){
+        return gameRepo.findAll().stream().filter(game -> game.getCompleted().equals(false)).collect(Collectors.toList());
     }
 
     public void fill32(){

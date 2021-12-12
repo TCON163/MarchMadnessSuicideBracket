@@ -25,6 +25,10 @@ public class TeamService {
         return repo.findAll().stream().filter(t -> t.getAlive().equals(true)).collect(Collectors.toList());
     }
 
+    public List<Team> teamsEliminated(){
+        return repo.findAll().stream().filter(team -> team.getAlive().equals(false)).collect(Collectors.toList());
+    }
+
     public Team getTeamById(Integer id) { return repo.findById(id).orElseThrow(() -> new ResourceDoesNotExist("No Team"));}
 
     public Team createTeam(Team team){ return repo.save(team);}

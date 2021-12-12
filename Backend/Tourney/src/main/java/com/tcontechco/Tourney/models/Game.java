@@ -45,7 +45,7 @@ public class Game {
 
     @Column(name="complete")
     @NonNull
-    private boolean completed;
+    private Boolean completed;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "winner_id")

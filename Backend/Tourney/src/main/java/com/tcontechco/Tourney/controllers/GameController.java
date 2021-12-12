@@ -62,4 +62,14 @@ public class GameController {
         Game nulls = new Game();
         return ResponseEntity.badRequest().body(nulls);
     }
+
+    @GetMapping("/games/completed")
+    public ResponseEntity<List<Game>> completedGames(){
+        return ResponseEntity.ok(gameService.getCompletedGames());
+    }
+
+    @GetMapping("/games/uncompleted")
+    public ResponseEntity<List<Game>> uncompletedGames(){
+        return ResponseEntity.ok(gameService.getGamesNotCompleted());
+    }
 }
