@@ -1,5 +1,6 @@
 package com.tcontechco.Tourney.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -24,8 +25,21 @@ public class Team {
     @Column
     private Boolean alive;
 
-    @OneToMany(mappedBy = "team")
-    private List<Picks> pick;
+    @OneToOne(mappedBy = "pick")
+    @JsonIgnore
+    private Picks pick;
+
+    @OneToOne(mappedBy = "home")
+    @JsonIgnore
+    private Game gameHome;
+
+    @OneToOne(mappedBy = "away")
+    @JsonIgnore
+    private Game gameAway;
+
+    @OneToOne(mappedBy = "winner")
+    @JsonIgnore
+    private Game gameWinner;
 
 
 }

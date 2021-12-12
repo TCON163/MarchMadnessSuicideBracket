@@ -3,25 +3,30 @@ package com.tcontechco.Tourney.controllers;
 import com.tcontechco.Tourney.models.Picks;
 import com.tcontechco.Tourney.models.Player;
 import com.tcontechco.Tourney.models.TPlayer;
+import com.tcontechco.Tourney.models.Tourney;
 import com.tcontechco.Tourney.services.PlayerService;
 import com.tcontechco.Tourney.services.TourneyPlayerService;
+import com.tcontechco.Tourney.services.TourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/v1")
 public class TPlayerController {
     private final TourneyPlayerService service;
     private final PlayerService playerService;
+    private final TourneyService tourneyService;
 
     @Autowired
-    public TPlayerController(TourneyPlayerService service, PlayerService playerService){
+    public TPlayerController(TourneyPlayerService service, PlayerService playerService, TourneyService tourneyService){
         this.service = service;
         this.playerService = playerService;
+        this.tourneyService = tourneyService;
     }
 
     @GetMapping("/tp")
@@ -32,11 +37,22 @@ public class TPlayerController {
         return ResponseEntity.ok(service.getTPwithTourneyId(id));
     }
 
-    @PostMapping("/tp/{playerId}")
-    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer playerId){
-        Player p = playerService.getPlayerById(playerId);
-        tp.setPlayer(p);
-        return ResponseEntity.ok(service.createTP(tp));
+    @PostMapping("/tp/{playerId}/tourney/{tourneyId}")
+    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer playerId, @PathVariable Integer tourneyId){
+        Tourney tourney = tourneyService.getTourneyById(tourneyId);
+        Set<TPlayer> set = tourney.getPlayers();
+        Set<Integer> playersId = set.stream().map(tPlayer -> tPlayer.getPlayer().getPlayerId()).collect(Collectors.toSet());
+        if (!playersId.contains(playerId)){
+            Player p = playerService.getPlayerById(playerId);
+            tp.setPlayer(p);
+            tp.setTourney(tourney);
+
+            tourney.getPlayers().add(tp);
+            tourneyService.createOrSaveTourney(tourney);
+            return ResponseEntity.ok(service.createTP(tp));
+        }
+        TPlayer nulls = new TPlayer();
+        return ResponseEntity.status(403).body(nulls);
     }
 
 //    @GetMapping("/tp/picks/{id}")

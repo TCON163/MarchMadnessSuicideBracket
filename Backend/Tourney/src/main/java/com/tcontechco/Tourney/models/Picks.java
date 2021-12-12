@@ -19,9 +19,9 @@ public class Picks {
     @Column(name = "pick_id", unique = true)
     private Integer pickId;
 
-    @ManyToOne
-    @JoinColumn
-    private Team team;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pick_id", referencedColumnName = "teamId")
+    private Team pick;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tPId")
