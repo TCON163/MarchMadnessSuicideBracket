@@ -1,30 +1,38 @@
 package com.tcontechco.Tourney.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
-@Table
+@Table(name = "tourney")
 @Getter
 @Setter
 @NoArgsConstructor
-public class Tourney {
+public class Tourney implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer tourneyId;
+    private Integer  tourneyId;
 
-    @NonNull
-    @Column( name = "title")
+
+    @Column(name = "tourney_title")
     private String title;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    private Admin headGuy;
 
-    @OneToOne
-    @MapsId
-    private Player admin;
 
-    @OneToMany
-    private List<TourneyPlayer> players;
+
+    @OneToMany(mappedBy = "tourney")
+    private Set<TPlayer> players = new HashSet<>();
+
+    public void enrollTPlayer(TPlayer tp){
+        players.add(tp);
+    }
 
 }

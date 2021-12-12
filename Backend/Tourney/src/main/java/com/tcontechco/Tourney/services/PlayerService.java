@@ -18,6 +18,7 @@ public class PlayerService {
     @Autowired
     public PlayerService(PlayerRepo repo){this.repo = repo;}
 
+
     public List<Player> getAll() {return repo.findAll();}
 
     public Player getPlayerById(Integer id){

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table
@@ -14,7 +15,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Team {
     @Id
-    private Integer id;
+    @Column(name = "team_id")
+    private Integer teamId;
 
     @Column
     private String teamName;
@@ -22,9 +24,8 @@ public class Team {
     @Column
     private Boolean alive;
 
-    @OneToOne
-    @MapsId
-    private Picks picks;
+    @OneToMany(mappedBy = "team")
+    private List<Picks> pick;
 
 
 }
