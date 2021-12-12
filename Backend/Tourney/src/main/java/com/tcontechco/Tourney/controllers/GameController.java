@@ -49,11 +49,40 @@ public class GameController {
         return ResponseEntity.ok("game db filled.");
     }
 
+    @GetMapping("/games/fill2ndRound")
+    public ResponseEntity<String> fill2ndround(){
+        gameService.fill33to48();
+        return ResponseEntity.ok("2nd round of games are in the database.");
+    }
+
+    @GetMapping("/games/simulateFirstRound")
+    public ResponseEntity<String> simulateFirst(){
+        gameService.simulate1stRound();
+        return ResponseEntity.ok("simulated 1st round");
+    }
+
+    @GetMapping("/games/simulateSecondRound")
+    public ResponseEntity<String> simulateSecond(){
+        gameService.simulate2ndRound();
+        return ResponseEntity.ok("simulated 2nd round");
+    }
+
     @PutMapping("/games/{gameId}/winner/{teamId}")
     public ResponseEntity<Game> winner(@PathVariable Integer gameId, @PathVariable Integer teamId){
         Game game = gameService.findById(gameId);
-        if (game.getHome().getTeamId().equals(teamId)||game.getAway().getTeamId().equals(teamId)){
+        if (game.getHome().getTeamId().equals(teamId)){
             Team winner = teamService.getTeamById(teamId);
+            Team away = game.getAway();
+            away.setAlive(false);
+            teamService.createTeam(away);
+            game.setWinner(winner);
+            game.setCompleted(true);
+            return ResponseEntity.ok(gameService.createOrSave(game));
+        } else if(game.getAway().getTeamId().equals(teamId)){
+            Team winner = game.getAway();
+            Team home = game.getHome();
+            home.setAlive(false);
+            teamService.createTeam(home);
             game.setWinner(winner);
             game.setCompleted(true);
             return ResponseEntity.ok(gameService.createOrSave(game));
