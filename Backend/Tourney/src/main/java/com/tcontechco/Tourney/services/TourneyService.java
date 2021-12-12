@@ -35,7 +35,7 @@ public class TourneyService {
     public Set<TPlayer> getActiveTPbyTourneyID(Integer id) {
         Tourney t = tourneyRepo.findById(id).orElseThrow(() -> new ResourceDoesNotExist("No Tourney with that ID"));
 
-        return t.getPlayers();
+        return t.getPlayers().stream().filter(tPlayer -> tPlayer.getAlive().equals(true)).collect(Collectors.toSet());
     }
 
 
