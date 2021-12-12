@@ -23,7 +23,8 @@ public class Tourney implements Serializable {
     @Column(name = "tourney_title")
     private String title;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="admin_id")
     private Admin headGuy;
 
 

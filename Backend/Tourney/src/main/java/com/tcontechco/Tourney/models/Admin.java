@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "admin")
@@ -22,7 +24,7 @@ public class Admin {
     private Player player;
 
 
-    @OneToOne(mappedBy = "headGuy")
+    @OneToMany(mappedBy = "headGuy")
     @JsonIgnore
-    private Tourney tourney;
+    private Set<Tourney> tourney = new HashSet<>();
 }

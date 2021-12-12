@@ -23,8 +23,8 @@ public class TPlayer {
     @Column(name = "tp_id", unique = true)
     private Integer tPId;
 
-    @OneToOne
-    @MapsId
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "player_id")
     private Player player;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -40,6 +40,17 @@ public class TPlayer {
 
     @Column
     private Boolean alive;
+
+
+    @Override
+    public boolean equals(Object other){
+        if (other == null||other.getClass() != this.getClass()){
+            return false;
+        }
+        final TPlayer compare = (TPlayer) other;
+
+        return (this.getPlayer() == null) ? (compare.getPlayer() == null) : this.getPlayer().getPlayerId().equals(compare.getPlayer().getPlayerId());
+    }
 
 
 }
