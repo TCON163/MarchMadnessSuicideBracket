@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -25,21 +26,21 @@ public class Team {
     @Column
     private Boolean alive;
 
-    @OneToOne(mappedBy = "pick")
+    @OneToMany(mappedBy = "pick")
     @JsonIgnore
-    private Picks pick;
+    private List<Picks> pick = new ArrayList<>();
 
-    @OneToOne(mappedBy = "home")
+    @OneToMany(mappedBy = "home")
     @JsonIgnore
-    private Game gameHome;
+    private List<Game> gameHome = new ArrayList<>();
 
-    @OneToOne(mappedBy = "away")
+    @OneToMany(mappedBy = "away")
     @JsonIgnore
-    private Game gameAway;
+    private List<Game> gameAway = new ArrayList<>();
 
-    @OneToOne(mappedBy = "winner")
+    @OneToMany(mappedBy = "winner")
     @JsonIgnore
-    private Game gameWinner;
+    private List<Game> winners = new ArrayList<>();
 
 
 }

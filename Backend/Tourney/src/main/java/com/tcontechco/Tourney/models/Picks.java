@@ -19,14 +19,19 @@ public class Picks {
     @Column(name = "pick_id", unique = true)
     private Integer pickId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pick_id", referencedColumnName = "teamId")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "team_id")
     private Team pick;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "tPId")
+    @JsonIgnore
     private TPlayer player;
 
     @Column
     private Boolean winner;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "game_id")
+    private Game game;
 }

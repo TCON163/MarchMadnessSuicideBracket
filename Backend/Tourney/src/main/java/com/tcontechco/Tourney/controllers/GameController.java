@@ -42,4 +42,24 @@ public class GameController {
 
         return ResponseEntity.ok(gameService.createOrSave(game));
     }
+
+    @GetMapping("/games/fill32")
+    public ResponseEntity<String> fillDB(){
+        gameService.fill32();
+        return ResponseEntity.ok("game db filled.");
+    }
+
+    @PutMapping("/games/{gameId}/winner/{teamId}")
+    public ResponseEntity<Game> winner(@PathVariable Integer gameId, @PathVariable Integer teamId){
+        Game game = gameService.findById(gameId);
+        if (game.getHome().getTeamId().equals(teamId)||game.getAway().getTeamId().equals(teamId)){
+            Team winner = teamService.getTeamById(teamId);
+            game.setWinner(winner);
+            game.setCompleted(true);
+            return ResponseEntity.ok(gameService.createOrSave(game));
+        }
+
+        Game nulls = new Game();
+        return ResponseEntity.badRequest().body(nulls);
+    }
 }

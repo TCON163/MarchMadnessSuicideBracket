@@ -48,10 +48,10 @@ public class Player {
 
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "admin_id")
-    @JsonIgnore
-    private Admin admin;
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "admin_id")
+//    @JsonIgnore
+//    private Admin admin;
 
     @OneToMany(mappedBy = "player")
     @JsonIgnore
