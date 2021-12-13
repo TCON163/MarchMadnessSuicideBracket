@@ -1,5 +1,6 @@
 package com.tcontechco.Tourney.controllers;
 
+import com.tcontechco.Tourney.DTOs.RegisterPlayerDTO;
 import com.tcontechco.Tourney.models.Player;
 import com.tcontechco.Tourney.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,8 @@ public class PlayerController {
     public PlayerController(PlayerService service){this.service = service;}
 
     @GetMapping("/players")
-    public ResponseEntity<List<Player>> getAllPlayer(){return ResponseEntity.ok(service.getAll());}
+    public ResponseEntity<List<Player>> getAllPlayer(){
+        return ResponseEntity.ok(service.getAll());}
 
     @GetMapping("/players/{id}")
     public ResponseEntity<Player> getPlayerById(@PathVariable Integer id){
@@ -26,14 +28,21 @@ public class PlayerController {
     }
 
     @PostMapping("/players")
-    public ResponseEntity<Player> createOrSavePlayer(@RequestBody Player player){
+    public ResponseEntity<Player> createOrSavePlayer(@RequestBody RegisterPlayerDTO player){
         Player p = new Player();
         p.setFirstName(player.getFirstName());
         p.setLastName(player.getLastName());
         p.setUsername(player.getUsername());
         p.setEmail(player.getEmail());
         p.setPassword(player.getPassword());
-        return ResponseEntity.ok(service.createPlayer(p));
+        Player person = service.createPlayer(p);
+        if(person.getPlayerId()!= null){
+            return ResponseEntity.ok(person);
+        }
+
+
+        return ResponseEntity.badRequest().body(person);
+
     }
 
     @DeleteMapping("/players")

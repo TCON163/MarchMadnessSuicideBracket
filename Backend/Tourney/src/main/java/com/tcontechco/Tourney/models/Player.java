@@ -32,12 +32,12 @@ public class Player {
     private String lastName;
 
     @NonNull
-    @Column(name = "username")
+    @Column(name = "username",unique = true)
     private String username;
 
     @NonNull
     @Column(name = "password")
-
+    @JsonIgnore
     private String password;
 
     @NonNull
