@@ -395,7 +395,7 @@ public class GameService {
     public void simulateChamp(){
         Random random = new Random();
         int rand = random.nextInt(21);
-        if(rand%2==0){
+        if(rand>9){
             Game game = gameRepo.getById(63);
             Team winner = game.getHome();
             Team loser = game.getAway();
@@ -405,7 +405,7 @@ public class GameService {
             game.setCompleted(true);
             gameRepo.save(game);
         }else{
-            Game game = gameRepo.getById(61);
+            Game game = gameRepo.getById(63);
             Team winner = game.getAway();
             Team loser = game.getHome();
             loser.setAlive(false);

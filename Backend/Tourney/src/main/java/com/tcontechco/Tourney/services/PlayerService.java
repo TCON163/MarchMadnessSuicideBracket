@@ -1,5 +1,6 @@
 package com.tcontechco.Tourney.services;
 
+import com.tcontechco.Tourney.DTOs.LoginCredentialsDTO;
 import com.tcontechco.Tourney.exceptions.ResourceDoesNotExist;
 import com.tcontechco.Tourney.models.Player;
 import com.tcontechco.Tourney.repos.PlayerRepo;
@@ -22,15 +23,33 @@ public class PlayerService {
     public List<Player> getAll() {return repo.findAll();}
 
     public Player getPlayerById(Integer id){
-        return repo.findById(id).orElseThrow(()-> new ResourceDoesNotExist("Player does not exist."));
+       Player player = repo.findById(id).orElseThrow(()-> new ResourceDoesNotExist("Player does not exist."));
+       return new Player(player);
+
+    }
+
+    public Player getPlayerByUsername(String username){
+
+            Player player = repo.findByUsername(username).orElseThrow(()-> new ResourceDoesNotExist("Cannot find player with username: " + username));
+
+            return new Player(player);
     }
 
     public Player createPlayer(Player player){
-        return repo.save(player);
+        Player p = repo.save(player);
+        return new Player(p);
     }
 
     public void deletePlayer(Player player){
         repo.delete(player);
+    }
+
+    public Player login(LoginCredentialsDTO log){
+        Player player = repo.findByUsername(log.getUsername()).orElseThrow(()-> new ResourceDoesNotExist("cant find username"));
+        if (player.getPassword().equals(log.getPassword())){
+            return new Player(player);
+        }
+        return new Player();
     }
 
 }

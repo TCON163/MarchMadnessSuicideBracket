@@ -42,5 +42,10 @@ public class PlayerController {
         return ResponseEntity.ok(player.getUsername() + " was deleted");
     }
 
+    @GetMapping("/players/username/{username}")
+    public ResponseEntity<Player> getByUsername(@PathVariable String username){
+        return ResponseEntity.ok(service.getPlayerByUsername(username));
+    }
+
 
 }
