@@ -32,12 +32,12 @@ public class Player {
     private String lastName;
 
     @NonNull
-    @Column(name = "username")
+    @Column(name = "username",unique = true)
     private String username;
 
     @NonNull
     @Column(name = "password")
-
+    @JsonIgnore
     private String password;
 
     @NonNull
@@ -45,17 +45,16 @@ public class Player {
     private String email;
 
 
-
-
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "admin_id")
-    @JsonIgnore
-    private Admin admin;
-
     @OneToMany(mappedBy = "player")
     @JsonIgnore
     private Set<TPlayer> tPlayers = new HashSet<>();
 
-
+    public Player(Player player){
+        this.playerId = player.getPlayerId();
+        this.username = player.getUsername();
+        this.email = player.getEmail();
+        this.firstName = player.getFirstName();
+        this.lastName = player.getLastName();
+        this.password = "Protected for you";
+    }
 }

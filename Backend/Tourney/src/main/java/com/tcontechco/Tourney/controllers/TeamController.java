@@ -46,5 +46,21 @@ public class TeamController {
         return ResponseEntity.ok(team.getTeamName()+" was deleted.");
     }
 
+    @GetMapping("/teams/fillDB")
+    public ResponseEntity<String> fillDB(){
+        service.fillDB();
+        return ResponseEntity.ok("db filled");
+    }
+
+    @GetMapping("/teams/alive")
+    public ResponseEntity<List<Team>> aliveTeam(){
+        return ResponseEntity.ok(service.allTeamsStillAlive());
+    }
+
+    @GetMapping("/teams/eliminated")
+    public ResponseEntity<List<Team>> eliminatedTeams(){
+        return ResponseEntity.ok(service.teamsEliminated());
+    }
+
 
 }

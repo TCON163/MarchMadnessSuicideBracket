@@ -20,7 +20,7 @@ public class Admin {
     @Column(name = "admin_id")
     private Integer adminId;
 
-    @OneToOne(mappedBy = "admin")
+    @OneToOne(cascade = CascadeType.ALL)
     private Player player;
 
 

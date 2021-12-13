@@ -1,0 +1,7 @@
+<app-navbar></app-navbar>
+<div *ngIf="loggedIn; else elseBlock">
+    <p> you're loggedIn</p>
+</div>
+<ng-template #elseBlock>
+    <app-login></app-login>
+</ng-template>

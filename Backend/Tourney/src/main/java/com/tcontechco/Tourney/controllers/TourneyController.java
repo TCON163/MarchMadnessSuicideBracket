@@ -69,24 +69,27 @@ public class TourneyController {
     }
 
     //Add a TourneyPlayer to the Tourney
-    @GetMapping("/tourney/{id}/tp/{playerId}")
-    public ResponseEntity<TPlayer> addTPtoTourney(@PathVariable Integer id,@PathVariable Integer playerId){
+    //I set the tourney when creating the TPlayer now.
 
-        Tourney tourney = service.getTourneyById(id);
-        Set<TPlayer> set = tourney.getPlayers();
-        TPlayer p = tpService.findById(playerId);
-        Set<Integer> playersId = set.stream().map(tPlayer -> tPlayer.getPlayer().getPlayerId()).collect(Collectors.toSet());
 
-        if (!playersId.contains(p.getPlayer().getPlayerId())&& p.getTourney() == null){
-            p.setTourney(tourney);
-            tourney.enrollTPlayer(p);
-            tpService.createTP(p);
-            service.createOrSaveTourney(tourney);
-            return ResponseEntity.ok(p);
-        }
-
-        TPlayer nulls = new TPlayer();
-        return ResponseEntity.status(403).body(nulls);
-    }
+//    @GetMapping("/tourney/{id}/tp/{playerId}")
+//    public ResponseEntity<TPlayer> addTPtoTourney(@PathVariable Integer id,@PathVariable Integer playerId){
+//
+//        Tourney tourney = service.getTourneyById(id);
+//        Set<TPlayer> set = tourney.getPlayers();
+//        TPlayer p = tpService.findById(playerId);
+//        Set<Integer> playersId = set.stream().map(tPlayer -> tPlayer.getPlayer().getPlayerId()).collect(Collectors.toSet());
+//
+//        if (!playersId.contains(p.getPlayer().getPlayerId())&& p.getTourney() == null){
+//            p.setTourney(tourney);
+//            tourney.enrollTPlayer(p);
+//            tpService.createTP(p);
+//            service.createOrSaveTourney(tourney);
+//            return ResponseEntity.ok(p);
+//        }
+//
+//        TPlayer nulls = new TPlayer();
+//        return ResponseEntity.status(403).body(nulls);
+//    }
 
 }

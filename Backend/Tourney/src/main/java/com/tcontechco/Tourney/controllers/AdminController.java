@@ -34,11 +34,11 @@ public class AdminController {
     @PostMapping("/admin/{playerId}")
     public ResponseEntity<Admin> createAdmin(@PathVariable Integer playerId){
 
-        Player p = playerService.getPlayerById(playerId);
+        Player p = playerService.getById(playerId);
         Admin a = new Admin();
 
         a.setPlayer(p);
-        p.setAdmin(a);
+
         playerService.createPlayer(p);
 
         return ResponseEntity.ok(adminService.createAdmin(a));
