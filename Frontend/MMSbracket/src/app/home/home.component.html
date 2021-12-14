@@ -1,7 +1,7 @@
-<app-navbar></app-navbar>
+<app-navbar [loggedIn]="loggedIn" (logout)="setLoggedIn($event)"></app-navbar>
 <div *ngIf="loggedIn; else elseBlock">
     <p> you're loggedIn</p>
 </div>
 <ng-template #elseBlock>
-    <app-login></app-login>
+    <app-login (login)="setLoggedIn($event)"></app-login>
 </ng-template>
