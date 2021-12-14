@@ -1,4 +1,4 @@
-***12/10/2021  Andrew and I have decide to put a pause on this repo, and start a monolithic architect repo. Then come back and converted it into microservices. -TC***
+***We moved to a mono server architech. The backend is in the BackEnd/Tourney directory. 12/13/21 - TC
 
 
 
