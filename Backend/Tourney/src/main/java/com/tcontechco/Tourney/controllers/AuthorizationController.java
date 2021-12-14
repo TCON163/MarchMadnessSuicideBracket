@@ -5,10 +5,7 @@ import com.tcontechco.Tourney.models.Player;
 import com.tcontechco.Tourney.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
@@ -21,6 +18,7 @@ public class AuthorizationController {
         this.service = service;
     }
 
+    @CrossOrigin
     @PostMapping("/login")
     public ResponseEntity<Player> login(@RequestBody LoginCredentialsDTO login){
         Player player = service.login(login);

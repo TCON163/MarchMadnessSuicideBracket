@@ -1,1 +1,7 @@
-<p>navbar works!</p>
+<div *ngIf="loggedIn; else elseBlock">
+<p>navbar works! {{username}} is logged in.</p>
+<button (click)="appLogOut()">logout</button>
+</div>
+<ng-template #elseBlock>
+    <p>Navbar works. I am not logged in</p>
+</ng-template>

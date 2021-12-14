@@ -3,6 +3,8 @@ package com.tcontechco.Tourney.services;
 import com.tcontechco.Tourney.DTOs.LoginCredentialsDTO;
 import com.tcontechco.Tourney.exceptions.ResourceDoesNotExist;
 import com.tcontechco.Tourney.models.Player;
+import com.tcontechco.Tourney.models.TPlayer;
+import com.tcontechco.Tourney.models.Tourney;
 import com.tcontechco.Tourney.repos.PlayerRepo;
 import org.mariadb.jdbc.internal.util.dao.QueryException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,14 @@ import org.springframework.stereotype.Service;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class PlayerService {
 
     private final PlayerRepo repo;
+
 
     @Autowired
     public PlayerService(PlayerRepo repo){this.repo = repo;}
@@ -60,6 +65,16 @@ public class PlayerService {
             return player;
         }
         return new Player();
+    }
+
+    public Set<TPlayer> getTPfromId(Integer id){
+        return repo.getById(id).getTPlayers();
+
+    }
+
+    public List<Tourney> getTourneyByPlayerId(Integer id){
+        Set<TPlayer> set = repo.getById(id).getTPlayers();
+        return set.stream().map(TPlayer::getTourney).collect(Collectors.toList());
     }
 
 }

@@ -1,6 +1,7 @@
 package com.tcontechco.Tourney.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.persistence.*;
@@ -25,6 +26,7 @@ public class Tourney implements Serializable {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="admin_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Admin headGuy;
 
 

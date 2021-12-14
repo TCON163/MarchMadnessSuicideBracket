@@ -2,12 +2,15 @@ package com.tcontechco.Tourney.controllers;
 
 import com.tcontechco.Tourney.DTOs.RegisterPlayerDTO;
 import com.tcontechco.Tourney.models.Player;
+import com.tcontechco.Tourney.models.TPlayer;
+import com.tcontechco.Tourney.models.Tourney;
 import com.tcontechco.Tourney.services.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -54,6 +57,16 @@ public class PlayerController {
     @GetMapping("/players/username/{username}")
     public ResponseEntity<Player> getByUsername(@PathVariable String username){
         return ResponseEntity.ok(service.getPlayerByUsername(username));
+    }
+
+    @GetMapping("/players/tps/{id}")
+    public ResponseEntity<Set<TPlayer>> getTPforPlayer(@PathVariable Integer id){
+        return ResponseEntity.ok(service.getTPfromId(id));
+    }
+
+    @GetMapping("/players/tourney/{id}")
+    public ResponseEntity<List<Tourney>> getTourneyByPlayerId(@PathVariable Integer id){
+        return ResponseEntity.ok(service.getTourneyByPlayerId(id));
     }
 
 

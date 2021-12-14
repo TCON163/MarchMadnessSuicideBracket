@@ -1,6 +1,7 @@
 package com.tcontechco.Tourney.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -23,8 +24,10 @@ public class TPlayer {
     @Column(name = "tp_id", unique = true)
     private Integer tPId;
 
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "player_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Player player;
 
     @ManyToOne(cascade = CascadeType.ALL)

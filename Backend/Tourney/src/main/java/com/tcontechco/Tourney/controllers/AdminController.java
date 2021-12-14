@@ -37,6 +37,7 @@ public class AdminController {
         Player p = playerService.getById(playerId);
         Admin a = new Admin();
 
+        a.setAdminId(p.getPlayerId());
         a.setPlayer(p);
 
         playerService.createPlayer(p);
