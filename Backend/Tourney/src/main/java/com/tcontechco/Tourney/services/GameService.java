@@ -49,6 +49,10 @@ public class GameService {
         return gameRepo.findAll().stream().filter(game -> game.getCompleted().equals(false)).collect(Collectors.toList());
     }
 
+    public List<Game> getListOfGamesByDate(Date date){
+        return gameRepo.getListOfGamesByDate(date);
+    }
+
     public void fill32(){
         int count = 0;
         Integer countId = 1;

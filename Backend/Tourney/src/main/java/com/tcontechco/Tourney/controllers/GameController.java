@@ -1,5 +1,6 @@
 package com.tcontechco.Tourney.controllers;
 
+import com.tcontechco.Tourney.DTOs.DateDTO;
 import com.tcontechco.Tourney.models.Game;
 import com.tcontechco.Tourney.models.Team;
 import com.tcontechco.Tourney.services.GameService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -42,6 +44,26 @@ public class GameController {
 
         return ResponseEntity.ok(gameService.createOrSave(game));
     }
+
+
+    @CrossOrigin
+    @PostMapping("/games/date")
+    public ResponseEntity<List<Game>> listByDate(@RequestBody DateDTO date){
+        Date gameDay = new Date(date.getYear(),date.getMonth(),date.getDay());
+        return ResponseEntity.ok(gameService.getListOfGamesByDate(gameDay));
+    }
+
+
+
+
+
+
+
+
+
+
+
+
     @CrossOrigin
     @GetMapping("/games/fill32")
     public ResponseEntity<String> fillDB(){

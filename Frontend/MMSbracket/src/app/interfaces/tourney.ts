@@ -17,6 +17,12 @@ export class Game {
     winner!: Team;
 }
 
+export class DateDTO {
+    year!: number;
+    month!: number;
+    day!: number;
+}
+
 
 export class Picks {
     pickId!: number;
