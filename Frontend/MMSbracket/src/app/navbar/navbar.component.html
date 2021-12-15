@@ -1,5 +1,5 @@
 <div *ngIf="loggedIn; else elseBlock">
-<p>navbar works! {{username}} is logged in.</p>
+<p class="font-weight-bold">navbar works! {{username}} is logged in.</p>
 <button (click)="appLogOut()">logout</button>
 </div>
 <ng-template #elseBlock>

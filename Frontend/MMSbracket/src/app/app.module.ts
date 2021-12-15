@@ -8,6 +8,8 @@ import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './pages/register/register.component';
+import { TourneyListComponent } from './pages/tourney-list/tourney-list.component';
+import { TourneyComponent } from './pages/tourney/tourney.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +17,9 @@ import { RegisterComponent } from './pages/register/register.component';
     NavbarComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    TourneyListComponent,
+    TourneyComponent
   ],
   imports: [
     BrowserModule,

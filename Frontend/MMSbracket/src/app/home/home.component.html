@@ -1,6 +1,9 @@
 <app-navbar [loggedIn]="loggedIn" (logout)="setLoggedIn($event)"></app-navbar>
 <div *ngIf="loggedIn; else elseBlock">
-    <p> you're loggedIn</p>
+  
+    <div id="dashboard">
+    <router-outlet ></router-outlet>
+    </div>
 </div>
 <ng-template #elseBlock>
     <app-login (login)="setLoggedIn($event)"></app-login>
