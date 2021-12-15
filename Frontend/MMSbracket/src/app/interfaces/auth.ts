@@ -34,4 +34,5 @@ export class RegisterPlayer {
 
 export class Admin {
     adminId!: number;
+    player!: Player;
 }

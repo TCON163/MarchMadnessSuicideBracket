@@ -1,0 +1,12 @@
+<button routerLink="/home">back</button>
+<div *ngIf="tourney !== undefined; else elseBlock">
+<h1>{{tourney.title}}</h1>
+</div>
+<ng-template #elseBlock>
+    <div class="d-flex justify-content-center align-items-center"
+  style="height: 85vh; with: 500px;">
+    <div class="spinner-border text-primary " style="height: 10rem; width: 10rem; border-width: 10px" role="status">
+      <span class="sr-only" >Loading...</span>
+    </div>
+</div>
+</ng-template>

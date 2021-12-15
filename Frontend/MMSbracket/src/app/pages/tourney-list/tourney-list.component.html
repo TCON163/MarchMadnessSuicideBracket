@@ -1,0 +1,87 @@
+<div>
+  <div *ngIf="tourneyList !== undefined; else elseBlock">
+    <h4>Active Tourneys that need a Pick:</h4>
+    <table class="table" style="width: 50%">
+        <thead>
+          <th>League Name</th>
+          <th>League Owner</th>
+          <th></th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tourney of tourneyList">
+            <ng-template *ngIf="!needsToPick(tourney); else elseBlock">
+                
+            </ng-template>
+            <ng-template #elseBlock>
+              <td>{{ tourney.title }}</td>
+              <td *ngIf="!isAdmin(tourney); else elseBlock">{{ tourney.headGuy.player.firstName }} {{ tourney.headGuy.player.lastName }}</td>
+              <ng-template #elseBlock><td><p class="font-weight-bold">You</p></td></ng-template>
+              <td><button (click)="clickTourneyButton(tourney.tourneyId)">View</button></td>
+            </ng-template>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+
+    <h4>Active Tourneys:</h4>
+    <table class="table" style="width: 50%">
+      <thead>
+        <th>League Name</th>
+        <th>League Owner</th>
+        <th>Pick</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tourney of tourneyList">
+          <div *ngIf="!doesNotNeedToPick(tourney)  ; else elseBlock"></div>
+          <ng-template #elseBlock>
+            <td>{{ tourney.title }}</td>
+            <td *ngIf="!isAdmin(tourney); else elseBlock">{{ tourney.headGuy.player.firstName }} {{ tourney.headGuy.player.lastName }}</td>
+            <ng-template #elseBlock><td><p class="font-weight-bold">You</p></td></ng-template>
+            <td>{{getPick(tourney)}}</td>
+            <td><button (click)="clickTourneyButton(tourney.tourneyId)">View</button></td>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <br />
+
+    <h4>Eliminated Tourneys.</h4>
+    <table class="table" style="width: 50%">
+      <thead>
+        <th>League Name</th>
+        <th>League Owner</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tourney of tourneyList">
+          <div *ngIf="selectUserTPlayer(tourney).alive ; else elseBlock"></div>
+          <ng-template #elseBlock>
+            <td>{{ tourney.title }}</td>
+            <td *ngIf="!isAdmin(tourney); else elseBlock">
+              {{ tourney.headGuy.player.firstName }}
+              {{ tourney.headGuy.player.lastName }}
+            </td>
+            <ng-template #elseBlock
+              ><td><p class="font-weight-bold">You</p></td></ng-template
+            >
+
+            <td><button (click)="clickTourneyButton(tourney.tourneyId)">View</button></td>
+          </ng-template>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-template
+    #elseBlock
+  >
+  <div class="d-flex justify-content-center align-items-center"
+  style="height: 85vh; with: 50%;">
+    <div class="spinner-border text-primary " style="height: 10rem; width: 10rem; border-width: 10px" role="status">
+      <span class="sr-only" >Loading...</span>
+    </div>
+</div>
+  </ng-template>
+</div>
