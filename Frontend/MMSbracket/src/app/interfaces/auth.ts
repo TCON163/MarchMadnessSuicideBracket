@@ -19,3 +19,19 @@ export class CurrentUser {
     public static lastName: string;
     public static playerId: number;
 }
+
+
+
+export class RegisterPlayer {
+    username!:string;
+    email!:string;
+    firstName!: string;
+    lastName!: string;
+    playerId!: number;
+    password!: string;
+
+}
+
+export class Admin {
+    adminId!: number;
+}

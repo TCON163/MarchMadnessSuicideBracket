@@ -29,14 +29,17 @@ public class TPlayerController {
         this.tourneyService = tourneyService;
     }
 
+    @CrossOrigin
     @GetMapping("/tp")
     public ResponseEntity<List<TPlayer>>  getAllTP(){return ResponseEntity.ok(service.getAllTourneyPlayers());}
 
+    @CrossOrigin
     @GetMapping("/tp/tourney/{id}")
     public ResponseEntity<Set<TPlayer>> getTpByTourneyId(@PathVariable Integer id){
         return ResponseEntity.ok(service.getTPwithTourneyId(id));
     }
 
+    @CrossOrigin
     @PostMapping("/tp/{playerId}/tourney/{tourneyId}")
     public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer playerId, @PathVariable Integer tourneyId){
         Tourney tourney = tourneyService.getTourneyById(tourneyId);
@@ -60,6 +63,7 @@ public class TPlayerController {
 //        return ResponseEntity.ok(service.picksByTPID(id));
 //    }
 
+    @CrossOrigin
     @GetMapping("/tp/kill/{id}")
     public ResponseEntity<TPlayer> killPlayerById(@PathVariable Integer id){
         TPlayer tp = service.findById(id);

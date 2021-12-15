@@ -38,11 +38,13 @@ public class TourneyController {
 
 
     //Get all tourney
+    @CrossOrigin
     @GetMapping("/tourney")
     public ResponseEntity<List<Tourney>> getAllTourney(){return ResponseEntity.ok(service.allTourney());}
 
 
     //Get tourney by ID
+    @CrossOrigin
     @GetMapping("/tourney/{id}")
     public ResponseEntity<Tourney> getTourneyById(@PathVariable Integer id){
         return ResponseEntity.ok(service.getTourneyById(id));
@@ -50,6 +52,7 @@ public class TourneyController {
 
 
     //Create a tourney
+    @CrossOrigin
     @PostMapping("/tourney/{adminId}")
     public ResponseEntity<Tourney> createTourney(@RequestBody Tourney tourney, @PathVariable Integer adminId){
         Admin a = adminService.getByID(adminId);
@@ -63,6 +66,7 @@ public class TourneyController {
     }
 
     //Get all active TourneyPlayers for a tourney.
+    @CrossOrigin
     @GetMapping("/tourney/{id}/activeTP")
     public ResponseEntity<Set<TPlayer>> getListOfTpFromTourneyId(@PathVariable Integer id){
         return ResponseEntity.ok(service.getActiveTPbyTourneyID(id));

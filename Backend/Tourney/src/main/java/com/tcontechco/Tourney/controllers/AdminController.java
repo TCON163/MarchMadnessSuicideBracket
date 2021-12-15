@@ -20,17 +20,17 @@ public class AdminController {
     @Autowired
     public AdminController(AdminService adminService, PlayerService playerService){ this.adminService=adminService;this.playerService=playerService;}
 
-
+    @CrossOrigin
     @GetMapping("/admin")
     public ResponseEntity<List<Admin>> getAll() {
         return ResponseEntity.ok(adminService.getAll());
     }
-
+    @CrossOrigin
     @GetMapping("/admin/{id}")
     public ResponseEntity<Admin> getAdminBy(@PathVariable Integer id){
         return ResponseEntity.ok(adminService.getByID(id));
     }
-
+    @CrossOrigin
     @PostMapping("/admin/{playerId}")
     public ResponseEntity<Admin> createAdmin(@PathVariable Integer playerId){
 
