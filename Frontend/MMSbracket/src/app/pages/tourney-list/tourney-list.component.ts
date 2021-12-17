@@ -21,10 +21,10 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
 
 
-  
 
 
-  
+
+
 
   id: number = Number(localStorage.getItem("playerId"));
 
@@ -33,7 +33,7 @@ export class TourneyListComponent implements OnInit, OnChanges {
   constructor(private tourneyService: TourneyService, private router: Router) { }
 
   ngOnChanges(changes: SimpleChanges): void {
-    
+
     this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
       this.tourneyList = data;
       console.log(data)
@@ -93,7 +93,7 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
   needsToPick(tourney: Tourney): boolean{
     let tp = this.selectUserTPlayer(tourney);
-    
+
     if(tp.alive){
       if(tp.tpPicks.length <= this.dayOfTourney) {
         return true;
@@ -139,9 +139,9 @@ export class TourneyListComponent implements OnInit, OnChanges {
     let tid: number;
     this.tourneyService.createTourney(this.tourney, this.id).subscribe(data =>{
    tid = data.tourneyId;
-    
+
     }, err => console.error(err))
-    
+
 
     setTimeout(()=>{
       this.tourneyService.addTPtoTourney(this.id, tid).subscribe(tp =>{
@@ -150,8 +150,12 @@ export class TourneyListComponent implements OnInit, OnChanges {
       this.router.navigate(["home/manage/tourney", tid])
 
     },1200)
-    
-    
+
+
+  }
+
+  getManageTourney(id:number){
+    this.router.navigate(["home/manage/tourney", id])
   }
 
 

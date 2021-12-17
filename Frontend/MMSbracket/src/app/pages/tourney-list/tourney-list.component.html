@@ -6,7 +6,7 @@
         <form class="form" (ngSubmit)="onSubmit()">
           <div class="form-group">
             <label class="">Tourney Title :</label>
-            <input type="text" class="form-control" required 
+            <input type="text" class="form-control" required
             [(ngModel)]="tourney.title" [ngModelOptions]="{ standalone: true }"/>
           </div>
           <button type="submit" class="btn btn-primary">New Tourney</button>
@@ -43,7 +43,7 @@
                     </button>
                   </td>
                   <td *ngIf="isAdmin(tourney); else elseBlock">
-                    <button>Manage</button>
+                    <button (click)="getManageTourney(tourney.tourneyId)">Manage</button>
                   </td>
                   <ng-template #elseBlock><td></td></ng-template>
                 </ng-template>
@@ -81,7 +81,7 @@
                       View
                     </button>
                   </td>
-                  <td *ngIf="isAdmin(tourney)"><button>Manage</button></td>
+                  <td *ngIf="isAdmin(tourney)"><button (click)="getManageTourney(tourney.tourneyId)">Manage</button></td>
                 </ng-template>
               </tr>
             </tbody>
@@ -118,7 +118,7 @@
                     </button>
                   </td>
                   <td *ngIf="isAdmin(tourney); else elseBlank">
-                    <button>Manage</button>
+                    <button (click)="getManageTourney(tourney.tourneyId)">Manage</button>
                   </td>
                   <ng-template #elseBlank><td></td></ng-template>
                 </ng-template>

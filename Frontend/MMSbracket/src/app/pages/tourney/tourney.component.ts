@@ -38,8 +38,8 @@ teamUsedIdList: number[] = [];
 
         //Setting the day of the Tournament.
         let currentTime = Date.now();
-        let gameDate1 = new Date("2021-12-16T00:00:00").getTime();
-        let gameDate2 = new Date("2021-12-16T00:00:00").getTime();
+        let gameDate1 = new Date("2021-12-20T00:00:00").getTime();
+        let gameDate2 = new Date("2021-12-20T00:00:00").getTime();
         let gameDate3 = new Date("2021-12-17T00:00:00").getTime();
         let gameDate4 = new Date("2021-12-18T00:00:00").getTime();
 
@@ -82,9 +82,9 @@ teamUsedIdList: number[] = [];
                     }
                   })
               })
-             
+
           this.teamList.sort()
-          
+
           console.log(this.teamList)
 
   }//end of ngOnInit

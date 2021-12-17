@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
 import { DateDTO, Game, Tourney, TPlayer } from './interfaces/tourney';
+import { Player } from './interfaces/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +51,12 @@ export class TourneyService {
     let body = new TPlayer();
     body.alive = true;
     return this.client.post<TPlayer>(this.url +"/tp/" + playerId +"/tourney/"+tourneyId,body,{headers: headerOptions});
+  }
+
+  getUserByUsername(username: string): Observable<Player> {
+    const headerOptions = new HttpHeaders();
+    headerOptions.set("Content-Type", "application/json");
+    return this.client.get<Player>(this.url+"/players/username/"+ username,{headers: headerOptions});
   }
 
 
