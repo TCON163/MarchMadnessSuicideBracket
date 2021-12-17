@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Tourney, TPlayer } from 'src/app/interfaces/tourney';
 import { TourneyService } from 'src/app/tourney.service';
@@ -8,7 +8,7 @@ import { TourneyService } from 'src/app/tourney.service';
   templateUrl: './tourney-list.component.html',
   styleUrls: ['./tourney-list.component.scss']
 })
-export class TourneyListComponent implements OnInit {
+export class TourneyListComponent implements OnInit, OnChanges {
 
   tourneyList!: Tourney[];
 
@@ -16,10 +16,15 @@ export class TourneyListComponent implements OnInit {
 
   dayOfTourney!: number;
 
-  
+  tourney = new Tourney();
 
 
-  
+
+
+
+
+
+
 
   id: number = Number(localStorage.getItem("playerId"));
 
@@ -27,12 +32,23 @@ export class TourneyListComponent implements OnInit {
 
   constructor(private tourneyService: TourneyService, private router: Router) { }
 
+  ngOnChanges(changes: SimpleChanges): void {
+
+    this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
+      this.tourneyList = data;
+      console.log(data)
+    }, error => console.log(error))
+
+
+    this.tourneyService.getSetOfTPlayerByPlayerId(this.id).subscribe(data => {
+      this.tPlayerList = data;
+      console.log(data)
+    }, error => console.log(error))
+  }
+
   ngOnInit(): void {
     this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
-      setTimeout(()=>{
-        this.tourneyList = data;
-      },1000)
-     
+      this.tourneyList = data;
       console.log(data)
     }, error => console.log(error))
 
@@ -77,9 +93,9 @@ export class TourneyListComponent implements OnInit {
 
   needsToPick(tourney: Tourney): boolean{
     let tp = this.selectUserTPlayer(tourney);
-    
+
     if(tp.alive){
-      if(tp.tpPicks.length === this.dayOfTourney) {
+      if(tp.tpPicks.length <= this.dayOfTourney) {
         return true;
       }
     }
@@ -115,6 +131,31 @@ export class TourneyListComponent implements OnInit {
 
     this.router.navigate(["home/tourney", id])
 
+  }
+
+
+  onSubmit(){
+
+    let tid: number;
+    this.tourneyService.createTourney(this.tourney, this.id).subscribe(data =>{
+   tid = data.tourneyId;
+
+    }, err => console.error(err))
+
+
+    setTimeout(()=>{
+      this.tourneyService.addTPtoTourney(this.id, tid).subscribe(tp =>{
+        console.log(tp)
+      });
+      this.router.navigate(["home/manage/tourney", tid])
+
+    },1200)
+
+
+  }
+
+  getManageTourney(id:number){
+    this.router.navigate(["home/manage/tourney", id])
   }
 
 

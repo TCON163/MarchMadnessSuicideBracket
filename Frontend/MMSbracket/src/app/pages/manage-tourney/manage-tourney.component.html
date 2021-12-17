@@ -1,0 +1,63 @@
+<div class="container">
+  <div class="row " style="height: 92.9vh">
+    <div class="col-sm">
+      <h3>Add a player to the tournament</h3>
+      <form ngNativeValidate (ngSubmit)="addPlayer()">
+        <div class="form-group">
+          <label>Search for the User:</label>
+          <input class="form-control"
+          [(ngModel)]="newPlayer.username"
+          [ngModelOptions]="{ standalone: true }" required>
+          <button tpe="submit">Add User</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-sm">
+
+<div *ngIf="tourney !== undefined; else elseBlock">
+
+<h2>{{tourney.title}}</h2>
+<p>manage-tourney works!</p>
+
+<table class="table" style="width: 60%;">
+    <thead>
+        <th >Player</th>
+        <th>Alive</th>
+        <th>Picks</th>
+        <th></th>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tp of tourney.players" >
+        <td>{{tp.player.firstName}} {{tp.player.lastName}}</td>
+        <td>{{tp.alive}}</td>
+        <td><button class="btn btn-primary">Picks</button></td>
+        <td><button class="btn btn-danger">Delete</button></td>
+      </tr>
+    </tbody>
+</table>
+
+
+
+
+
+
+<!--Below is only the loading screen!-->
+</div>
+<ng-template #elseBlock>
+    <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 85vh; with: 500px"
+  >
+    <div
+      class="spinner-border text-primary"
+      style="height: 10rem; width: 10rem; border-width: 10px"
+      role="status"
+    >
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</ng-template>
+
+</div>
+</div>
+</div>

@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { RegisterComponent } from './pages/register/register.component';
 import { TourneyListComponent } from './pages/tourney-list/tourney-list.component';
 import { TourneyComponent } from './pages/tourney/tourney.component';
+import { ManageTourneyComponent } from './pages/manage-tourney/manage-tourney.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { TourneyComponent } from './pages/tourney/tourney.component';
     LoginComponent,
     RegisterComponent,
     TourneyListComponent,
-    TourneyComponent
+    TourneyComponent,
+    ManageTourneyComponent
   ],
   imports: [
     BrowserModule,

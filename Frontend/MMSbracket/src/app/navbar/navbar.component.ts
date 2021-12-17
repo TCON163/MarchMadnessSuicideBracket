@@ -30,4 +30,11 @@ export class NavbarComponent implements OnInit, OnChanges {
     localStorage.clear();
   }
 
+  ifTcon():boolean{
+    if(this.username ==="TCON"){
+      return true;
+    }
+    return false;
+  }
+
 }
