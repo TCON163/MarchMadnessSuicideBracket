@@ -57,7 +57,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        if (!request.getRequestURI().equals("/api/v1/login") && !request.getRequestURI().equals("/api/v1/register")){
+        if (!request.getRequestURI().equals("/api/v1/login") && !request.getRequestURI().equals("/api/v1/register") && !request.getRequestURI().equals("api/v1/games/**")){
             try{
                 parseToken(request);
             }catch (AuthenticationException e){

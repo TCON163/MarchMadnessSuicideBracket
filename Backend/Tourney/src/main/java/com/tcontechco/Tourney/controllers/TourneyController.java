@@ -6,6 +6,7 @@ import com.tcontechco.Tourney.services.AdminService;
 import com.tcontechco.Tourney.services.PlayerService;
 import com.tcontechco.Tourney.services.TourneyPlayerService;
 import com.tcontechco.Tourney.services.TourneyService;
+import com.tcontechco.Tourney.utils.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,14 +54,16 @@ public class TourneyController {
 
     //Create a tourney
     @CrossOrigin
-    @PostMapping("/tourney/{adminId}")
-    public ResponseEntity<Tourney> createTourney(@RequestBody Tourney tourney, @PathVariable Integer adminId){
-        Admin a = adminService.getByID(adminId);
+    @PostMapping("/tourney")
+    public ResponseEntity<Tourney> createTourney(@RequestBody Tourney tourney){
+        Admin a = adminService.getByID(CurrentUser.getPlayer().getPlayerId());
         System.out.println(a.getAdminId());
 
         Tourney t = new Tourney();
         t.setTitle(tourney.getTitle());
         t.setHeadGuy(a);
+        a.getTourney().add(t);
+        adminService.createAdmin(a);
 
         return ResponseEntity.ok(service.createOrSaveTourney(t));
     }

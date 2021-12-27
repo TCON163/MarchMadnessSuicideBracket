@@ -4,6 +4,7 @@ import com.tcontechco.Tourney.models.Admin;
 import com.tcontechco.Tourney.models.Player;
 import com.tcontechco.Tourney.services.AdminService;
 import com.tcontechco.Tourney.services.PlayerService;
+import com.tcontechco.Tourney.utils.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,10 +32,10 @@ public class AdminController {
         return ResponseEntity.ok(adminService.getByID(id));
     }
     @CrossOrigin
-    @PostMapping("/admin/{playerId}")
-    public ResponseEntity<Admin> createAdmin(@PathVariable Integer playerId){
+    @PostMapping("/admin")
+    public ResponseEntity<Admin> createAdmin(){
 
-        Player p = playerService.getById(playerId);
+        Player p = CurrentUser.getPlayer();
         Admin a = new Admin();
 
         a.setAdminId(p.getPlayerId());
