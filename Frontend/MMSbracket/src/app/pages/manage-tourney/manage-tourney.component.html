@@ -1,3 +1,4 @@
+<button routerLink="/">Back</button>
 <div class="container">
   <div class="row " style="height: 92.9vh">
     <div class="col-sm">
@@ -11,13 +12,18 @@
           <button tpe="submit">Add User</button>
         </div>
       </form>
+
+
+      <div>
+        <button class="btn btn-primary" (click)="clickTourneyButton()">View Tourney</button>
+      </div>
     </div>
     <div class="col-sm">
 
 <div *ngIf="tourney !== undefined; else elseBlock">
 
 <h2>{{tourney.title}}</h2>
-<p>manage-tourney works!</p>
+
 
 <table class="table" style="width: 60%;">
     <thead>

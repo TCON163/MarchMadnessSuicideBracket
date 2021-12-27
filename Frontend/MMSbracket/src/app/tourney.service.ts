@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from 'rxjs';
-import { DateDTO, Game, Tourney, TPlayer } from './interfaces/tourney';
+import { DateDTO, Game, Picks, Tourney, TPlayer } from './interfaces/tourney';
 import { Player } from './interfaces/auth';
 
 @Injectable({
@@ -57,6 +57,10 @@ export class TourneyService {
     const headerOptions = new HttpHeaders();
     headerOptions.set("Content-Type", "application/json");
     return this.client.get<Player>(this.url+"/players/username/"+ username,{headers: headerOptions});
+  }
+
+  makePicks(tPlayerId: number, teamId: number, gameId:number): Observable<Picks> {
+    return this.client.get<Picks>(this.url+"picks/" + tPlayerId + "/team/" + teamId + "/game/" + gameId);
   }
 
 

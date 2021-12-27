@@ -32,24 +32,7 @@ public class PlayerController {
         return ResponseEntity.ok(service.getPlayerById(id));
     }
 
-    @CrossOrigin
-    @PostMapping("/players")
-    public ResponseEntity<Player> createOrSavePlayer(@RequestBody RegisterPlayerDTO player){
-        Player p = new Player();
-        p.setFirstName(player.getFirstName());
-        p.setLastName(player.getLastName());
-        p.setUsername(player.getUsername());
-        p.setEmail(player.getEmail());
-        p.setPassword(player.getPassword());
-        Player person = service.createPlayer(p);
-        if(person.getPlayerId()!= null){
-            return ResponseEntity.ok(person);
-        }
 
-
-        return ResponseEntity.badRequest().body(person);
-
-    }
 
     @CrossOrigin
     @DeleteMapping("/players")
