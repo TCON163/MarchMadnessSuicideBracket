@@ -9,8 +9,8 @@ alive!: boolean;
 
 export class Game {
     gameId!: number;
-    date!: Date;
-    time!: Time;
+    date!: String;
+    time!: String;
     home!: Team;
     away!: Team;
     completed!: boolean;

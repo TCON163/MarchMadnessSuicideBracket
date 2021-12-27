@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Player } from 'src/app/interfaces/auth';
 import { Tourney } from 'src/app/interfaces/tourney';
 import { TourneyService } from 'src/app/tourney.service';
@@ -16,20 +16,11 @@ export class ManageTourneyComponent implements OnInit {
 
   newPlayer: Player = new Player();
 
-  constructor(private route: ActivatedRoute, private tService: TourneyService) { }
+  constructor(private route: ActivatedRoute, private tService: TourneyService, private router: Router) { }
 
   ngOnInit(): void {
 
-    this.route.url.subscribe(data => {
-      this.tourneyId = Number(data[2].path);
-      console.log(this.tourneyId)
-    })
-
-
-    this.tService.getTourneyByTouneyId(this.tourneyId).subscribe(data =>{
-      this.tourney = data;
-      console.log(data)
-    })
+    this.getData();
   }
 
 
@@ -50,6 +41,29 @@ export class ManageTourneyComponent implements OnInit {
       }
       )
     }, 500)
+
   }
+
+
+  getData(){
+    this.route.url.subscribe(data => {
+      this.tourneyId = Number(data[2].path);
+      console.log(this.tourneyId)
+    })
+    this.tService.getTourneyByTouneyId(this.tourneyId).subscribe(data =>{
+      this.tourney = data;
+      console.log(data)
+    })
+  }
+
+
+  clickTourneyButton(){
+
+    this.router.navigate(["home/tourney", this.tourneyId])
+
+  }
+
+
+
 
 }

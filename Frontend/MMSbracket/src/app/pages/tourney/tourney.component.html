@@ -1,42 +1,62 @@
 <button routerLink="/home">back</button>
 <div *ngIf="tourney !== undefined; else elseBlock">
-  <h1>{{ tourney.title }}</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <h1>{{ tourney.title }}</h1>
 
-  <table class="table" style="width: 50%">
-    <thead>
-      <th>Player</th>
-      <th>Pick</th>
-      <th>Alive</th>
-    </thead>
-    <tbody>
-      <tr *ngFor="let tp of tourney.players">
-        <td *ngIf="isCurrentUser(tp); else elseUser" class="font-weight-bold">
-          You
-        </td>
-        <ng-template #elseUser
-          ><td>{{ tp.player.username }}</td></ng-template
-        >
-        <td class="ms-xl-5" *ngIf="doesPlayerHavePick(tp); else elseBlock">
-          {{ tp.tpPicks[dayOfTourney].pick.teamName }}
-        </td>
-        <ng-template #elseBlock><td>Needs to select a Team</td></ng-template>
-        <td>{{ tp.alive }}</td>
-      </tr>
-    </tbody>
-  </table>
+        <table class="table" style="width: 100%">
+          <thead>
+            <th>Player</th>
+            <th>Pick</th>
+            <th>Alive</th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tp of tourney.players">
+              <td *ngIf="isCurrentUser(tp); else elseUser" class="font-weight-bold">
+                You
+              </td>
+              <ng-template #elseUser
+                ><td>{{ tp.player.username }}</td></ng-template
+              >
+              <td class="ms-xl-5" *ngIf="doesPlayerHavePick(tp); else elseBlock">
+                {{ tp.tpPicks[dayOfTourney].pick.teamName }}
+              </td>
+              <ng-template #elseBlock><td>Needs to select a Team</td></ng-template>
+              <td>{{ tp.alive }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col">
+        <div *ngIf="!doesPlayerHavePick(currentTPlayer); else elseBlock">
+          <h5 >Pick a Team</h5>
+        </div>
+        <ng-template #elseBlock>
+          <h5>Update your pick</h5>
+        </ng-template>
+        <form multiple [formGroup]="pickForm">
+          <select   formControlName="teamName">
+            <option *ngIf="!doesPlayerHavePick(currentTPlayer); else elseBlock" value="">Choose your Pick!</option>
+            <ng-component #elseBlock><option value="currentTPlayer.tpPicks[dayOfTourney]">{{currentTPlayer.tpPicks[dayOfTourney]}}</option></ng-component>
+              <option *ngFor="let team of teamList" [ngValue]="team" (change)="setGameId($event)">
+                  {{team.teamName}}
+              </option>
+          </select>
+          <br>
+          <button (click)="makePick()" type="submit" class="btn btn-primary">Pick</button>
+      </form>
+      </div>
+    </div>
 
-  <form>
-      <select>
-          <option *ngFor="let team of teamList" >
-              {{team.teamName}}
-          </option>
-      </select>
-  </form>
+  </div>
+
+
 </div>
 <ng-template #elseBlock>
   <div
     class="d-flex justify-content-center align-items-center"
-    style="height: 85vh; with: 500px"
+    style="height: 85vh; width: 500px"
   >
     <div
       class="spinner-border text-primary"

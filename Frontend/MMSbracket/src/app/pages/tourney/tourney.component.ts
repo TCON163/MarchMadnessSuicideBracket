@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DateDTO, Game, Picks, Team, Tourney, TPlayer } from 'src/app/interfaces/tourney';
 import { TourneyService } from 'src/app/tourney.service';
@@ -21,7 +22,15 @@ tourney!: Tourney;
 currentTPlayer!: TPlayer;
 teamUsedIdList: number[] = [];
 
-  constructor(private route: ActivatedRoute, private tService: TourneyService) { }
+gameForPick!: Game;
+teamForPick!: Team;
+
+  constructor(private route: ActivatedRoute, private tService: TourneyService, public fb: FormBuilder) { }
+
+pickForm = this.fb.group({
+  teamName: ['', [Validators.required]]
+})
+
 
   ngOnInit(): void {
       this.route.url.subscribe(data => {
@@ -73,6 +82,7 @@ teamUsedIdList: number[] = [];
 
               this.tService.getListOfGamesByDate(this.date).subscribe(data => {
                 this.gameList = data;
+                console.log(data)
                 data.forEach(game => {
                     if(!this.teamUsedIdList.includes(game.home.teamId)){
                       this.teamList.push(game.home)
@@ -108,6 +118,52 @@ teamUsedIdList: number[] = [];
     this.teamList.forEach((team, index)=> {
       if(team === rTeam) this.teamList.splice(index, 1);
     });
+  }
+
+  findGameByTeam(team: Team){
+    let game: Game = this.gameList.filter(game => game.away.teamId === team.teamId || game.home.teamId === team.teamId)[0];
+    return game;
+  }
+
+  findGameById(id:number): Game {
+    return this.gameList.filter(game => game.gameId === id)[0]
+  }
+
+  makePick(){
+    console.log(this.gameForPick.time)
+    console.log(this.gameForPick.date)
+
+
+
+    let newdate = this.gameForPick.date +"T" + this.gameForPick.time;
+
+    let gameDate = new Date(newdate);
+    if(!this.doesPlayerHavePick(this.currentTPlayer)){
+      if(Date.now() <gameDate.getTime()){
+        this.tService.makePicks(this.currentTPlayer.tpid,this.teamForPick.teamId, this.gameForPick.gameId).subscribe(data => console.log(data),err => console.log(err))
+        window.location.reload();
+      }else{
+        alert("Too late to switch your pick")
+      }
+    } else{
+      alert("You already have a pick")
+    }
+
+  }
+
+  findTeamById(id: number): Team {
+
+    return this.teamList.filter(t => t.teamId ===id )[0]
+
+  }
+
+  setGameId(e: any){
+    let team: Team = e.target.value;
+    this.gameForPick = this.findGameByTeam(team);
+    console.log("It's happening")
+    this.teamForPick = team;
+    console.log(team)
+    console.log(this.gameForPick)
   }
 
 }

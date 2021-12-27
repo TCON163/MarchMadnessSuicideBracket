@@ -3,6 +3,7 @@ package com.tcontechco.Tourney.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.tcontechco.Tourney.DTOs.RegisterPlayerDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -57,5 +58,13 @@ public class Player {
         this.firstName = player.getFirstName();
         this.lastName = player.getLastName();
         this.password = "Protected for you";
+    }
+
+    public  Player(RegisterPlayerDTO playerDTO){
+        username = playerDTO.getUsername();
+        password = playerDTO.getPassword();
+        email = playerDTO.getEmail();
+        firstName = playerDTO.getFirstName();
+        lastName = playerDTO.getLastName();
     }
 }
