@@ -27,7 +27,7 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
 
 
-  id: number = Number(localStorage.getItem("playerId"));
+  id: number = Number.parseInt(<string>localStorage.getItem("playerId"));
 
 
 
@@ -35,28 +35,28 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    this.tourneyService.getListOfTourneyByPlayerId(CurrentUser.playerId).subscribe(data => {
+    this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
       this.tourneyList = data;
       console.log(data)
     }, error => console.log(error))
 
 
-    this.tourneyService.getSetOfTPlayerByPlayerId(CurrentUser.playerId).subscribe(data => {
+    this.tourneyService.getSetOfTPlayerByPlayerId(this.id).subscribe(data => {
       this.tPlayerList = data;
       console.log(data)
     }, error => console.log(error))
   }
 
   ngOnInit(): void {
-   
 
-    this.tourneyService.getListOfTourneyByPlayerId(CurrentUser.playerId).subscribe(data => {
+
+    this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
       this.tourneyList = data;
       console.log(data)
     }, error => console.log(error))
 
 
-    this.tourneyService.getSetOfTPlayerByPlayerId(CurrentUser.playerId).subscribe(data => {
+    this.tourneyService.getSetOfTPlayerByPlayerId(this.id).subscribe(data => {
       this.tPlayerList = data;
       console.log(data)
     }, error => console.log(error))
@@ -87,15 +87,16 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
 // started a method to get the users TPlayer from the tourney
   selectUserTPlayer(tourney: Tourney): TPlayer {
-    let tpidList = this.tPlayerList.map(tp => tp.tpid)
+    return this.tPlayerList.filter(tp => tp.player.playerId === Number.parseInt(<string>localStorage.getItem("playerId")))[0]
 
-    return tourney.players.filter(player => tpidList.includes(player.tpid))[0]
+
   }
 
 
 
   needsToPick(tourney: Tourney): boolean{
     let tp = this.selectUserTPlayer(tourney);
+    console.log(tp)
 
     if(tp.alive){
       if(tp.tpPicks.length <= this.dayOfTourney) {
@@ -123,7 +124,7 @@ export class TourneyListComponent implements OnInit, OnChanges {
   }
 
   isAdmin(tourney: Tourney): boolean {
-    if(tourney.headGuy.adminId === Number(localStorage.getItem("playerId"))){
+    if(tourney.headGuy.adminId === CurrentUser.playerId){
       return true;
     }
     return false;
@@ -140,14 +141,14 @@ export class TourneyListComponent implements OnInit, OnChanges {
   onSubmit(){
 
     let tid: number;
-    this.tourneyService.createTourney(this.tourney, this.id).subscribe(data =>{
+    this.tourneyService.createTourney(this.tourney).subscribe(data =>{
    tid = data.tourneyId;
 
     }, err => console.error(err))
 
 
     setTimeout(()=>{
-      this.tourneyService.addTPtoTourney(this.id, tid).subscribe(tp =>{
+      this.tourneyService.addTPtoTourney( this.id,tid).subscribe(tp =>{
         console.log(tp)
       });
       this.router.navigate(["home/manage/tourney", tid])

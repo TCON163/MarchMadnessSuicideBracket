@@ -18,7 +18,16 @@ export class CurrentUser {
     public static firstName: string | '' | any;
     public static lastName: string | '' | any;
     public static playerId: number | '' | any;
-    public static token: string;
+  
+
+    public static clear(){
+      this.username = '';
+      this.email = '';
+      this.firstName = '';
+      this.lastName = '';
+      this.playerId = '';
+
+    }
 }
 
 

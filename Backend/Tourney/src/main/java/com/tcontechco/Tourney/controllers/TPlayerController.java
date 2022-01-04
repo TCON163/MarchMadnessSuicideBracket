@@ -41,13 +41,13 @@ public class TPlayerController {
     }
 
     @CrossOrigin
-    @PostMapping("/tp/tourney/{tourneyId}")
-    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer tourneyId){
+    @PostMapping("/tp/{id}/tourney/{tourneyId}")
+    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer tourneyId,@PathVariable Integer id){
         Tourney tourney = tourneyService.getTourneyById(tourneyId);
         Set<TPlayer> set = tourney.getPlayers();
         Set<Integer> playersId = set.stream().map(tPlayer -> tPlayer.getPlayer().getPlayerId()).collect(Collectors.toSet());
-        if (!playersId.contains(CurrentUser.getPlayer().getPlayerId())){
-            Player p = playerService.getById(CurrentUser.getPlayer().getPlayerId());
+        if (!playersId.contains(id)){
+            Player p = playerService.getById(id);
             tp.setPlayer(p);
             tp.setTourney(tourney);
 

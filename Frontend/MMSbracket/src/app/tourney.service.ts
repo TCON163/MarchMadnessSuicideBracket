@@ -38,51 +38,35 @@ export class TourneyService {
 
 
   getTourneyByTouneyId(id: number): Observable<Tourney> {
-    const headerOptions = new HttpHeaders().set("Authorization", <string> localStorage.getItem("JWT")).set("Content-Type", "application/json")
-    console.log(headerOptions)
-    return this.client.get<Tourney>(this.url + "/tourney/" + id, {headers: headerOptions});
+
+    return this.client.get<Tourney>(this.url + "/tourney", this.httpOptions);
   }
 
   getListOfGamesByDate(date: DateDTO): Observable<Game[]>{
-    const headerOptions = new HttpHeaders();
-    headerOptions.set("Authorization", <string> localStorage.getItem("JWT"))
-    headerOptions.set("Content-Type", "application/json")
-    console.log(headerOptions)
-    return this.client.post<Game[]>(this.url +"/games/date",date,{headers: headerOptions})
+
+    return this.client.post<Game[]>(this.url +"/games/date",date,this.httpOptions)
   }
 
-  createTourney(tourney: Tourney, id: number): Observable<Tourney>{
-    const headerOptions = new HttpHeaders();
-    headerOptions.set("Authorization", <string> localStorage.getItem("JWT"))
-    headerOptions.set("Content-Type", "application/json")
-    console.log(headerOptions)
-    return this.client.post<Tourney>(this.url + "/tourney/"+ id, tourney, {headers: headerOptions})
+  createTourney(tourney: Tourney): Observable<Tourney>{
+
+    return this.client.post<Tourney>(this.url + "/tourney", tourney,this.httpOptions)
   }
 
-  addTPtoTourney(playerId: number, tourneyId: number): Observable<TPlayer>{
-    const headerOptions = new HttpHeaders();
-    headerOptions.set("Authorization", <string> localStorage.getItem("JWT"))
-    headerOptions.set("Content-Type", "application/json")
-    console.log(headerOptions)
+  addTPtoTourney( tourneyId: number, playerId: number): Observable<TPlayer>{
+
     let body = new TPlayer();
     body.alive = true;
-    return this.client.post<TPlayer>(this.url +"/tp/" + playerId +"/tourney/"+tourneyId,body,{headers: headerOptions});
+    return this.client.post<TPlayer>(this.url +"/tp/"+playerId +"/tourney/"+tourneyId,body,this.httpOptions);
   }
 
   getUserByUsername(username: string): Observable<Player> {
-    const headerOptions = new HttpHeaders();
-    headerOptions.set("Authorization", <string> localStorage.getItem("JWT"))
-    headerOptions.set("Content-Type", "application/json")
-    console.log(headerOptions)
-    return this.client.get<Player>(this.url+"/players/username/"+ username,{headers: headerOptions});
+
+    return this.client.get<Player>(this.url+"/players/username/"+ username,this.httpOptions);
   }
 
   makePicks(tPlayerId: number, teamId: number, gameId:number): Observable<Picks> {
-    const headerOptions = new HttpHeaders();
-    headerOptions.set("Authorization", <string> localStorage.getItem("JWT"))
-    headerOptions.set("Content-Type", "application/json")
-    console.log(headerOptions)
-    return this.client.get<Picks>(this.url+"picks/" + tPlayerId + "/team/" + teamId + "/game/" + gameId, {headers: headerOptions});
+
+    return this.client.get<Picks>(this.url+"picks/" + tPlayerId + "/team/" + teamId + "/game/" + gameId, this.httpOptions);
   }
 
 

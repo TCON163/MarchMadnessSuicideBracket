@@ -25,6 +25,7 @@ export class NavbarComponent implements OnInit {
 
   appLogOut(){
     this.logout.emit(false);
+    CurrentUser.clear();
     localStorage.clear();
     sessionStorage.clear();
   }
