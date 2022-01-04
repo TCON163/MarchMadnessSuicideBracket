@@ -1,7 +1,8 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { CurrentUser, LoginDTO } from 'src/app/interfaces/auth';
+import { CurrentUser, LoginDTO, Player } from 'src/app/interfaces/auth';
 
 import { AuthService } from 'src/app/auth.service';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
@@ -25,15 +26,26 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    this.auth.login(this.credentials).subscribe(data => {
-      localStorage.setItem("playerId", data.playerId.toString())
-      localStorage.setItem("username", data.username)
-      localStorage.setItem("firstName", data.firstName)
-      localStorage.setItem("lastName", data.lastName)
-      localStorage.setItem("email", data.email)
+    this.auth.login(this.credentials).subscribe((data) => {
 
-      this.logInToApp();
-    
+      
+
+        localStorage.setItem("JWT", <string>data.headers.get("Authorization"))
+
+
+
+        CurrentUser.username = data.body?.username;
+        CurrentUser.email = data.body?.email;
+        CurrentUser.firstName = data.body?.firstName;
+        CurrentUser.lastName = data.body?.lastName;
+        CurrentUser.playerId = data.body?.playerId;
+
+
+
+        this.logInToApp();
+
+
+
 
     })
   }

@@ -3,7 +3,9 @@ package com.tcontechco.Tourney.controllers;
 import com.tcontechco.Tourney.DTOs.LoginCredentialsDTO;
 import com.tcontechco.Tourney.DTOs.RegisterPlayerDTO;
 import com.tcontechco.Tourney.exceptions.AuthenticationException;
+import com.tcontechco.Tourney.models.Admin;
 import com.tcontechco.Tourney.models.Player;
+import com.tcontechco.Tourney.services.AdminService;
 import com.tcontechco.Tourney.services.PlayerService;
 import com.tcontechco.Tourney.utils.CurrentUser;
 import com.tcontechco.Tourney.utils.JWTUtil;
@@ -28,12 +30,14 @@ public class AuthorizationController {
     private final PlayerService service;
     private final AuthenticationManager authenticationManager;
     private final JWTUtil jwtUtil;
+    private final AdminService adminService;
 
     @Autowired
-    public AuthorizationController(PlayerService service, AuthenticationManager authenticationManager, JWTUtil jwtUtil){
+    public AuthorizationController(PlayerService service, AuthenticationManager authenticationManager, JWTUtil jwtUtil, AdminService adminService){
         this.service = service;
         this.authenticationManager = authenticationManager;
         this.jwtUtil = jwtUtil;
+        this.adminService = adminService;
     }
 
     @CrossOrigin
@@ -46,6 +50,7 @@ public class AuthorizationController {
             Token.setToken(token);
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", token);
+            headers.set("Access-Control-Expose-Headers", "*");
             return new ResponseEntity<>(CurrentUser.getPlayer(), headers, HttpStatus.OK);
         } else{
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -55,7 +60,14 @@ public class AuthorizationController {
     @CrossOrigin
     @PostMapping("/register")
     public ResponseEntity<Player> savePlayer(@RequestBody RegisterPlayerDTO playerDTO){
-        return ResponseEntity.ok(service.createPlayer(playerDTO));
+
+        Player player = service.createPlayer(playerDTO);
+        Admin admin = new Admin();
+        admin.setPlayer(player);
+        admin.setAdminId(player.getPlayerId());
+        adminService.createAdmin(admin);
+
+        return ResponseEntity.ok(player);
     }
 
 

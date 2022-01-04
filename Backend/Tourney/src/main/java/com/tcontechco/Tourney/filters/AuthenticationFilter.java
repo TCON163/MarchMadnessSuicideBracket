@@ -2,6 +2,7 @@ package com.tcontechco.Tourney.filters;
 import com.tcontechco.Tourney.exceptions.AuthenticationException;
 import com.tcontechco.Tourney.exceptions.MalformedTokenException;
 import com.tcontechco.Tourney.exceptions.MissingTokenException;
+import com.tcontechco.Tourney.exceptions.ResourceDoesNotExist;
 import com.tcontechco.Tourney.services.PlayerService;
 import com.tcontechco.Tourney.utils.JWTUtil;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -57,7 +58,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        if (!request.getRequestURI().equals("/api/v1/login") && !request.getRequestURI().equals("/api/v1/register") && !request.getRequestURI().equals("api/v1/games/**")){
+        if (!request.getRequestURI().equals("/api/v1/login") && !request.getRequestURI().equals("/api/v1/register") ){
             try{
                 parseToken(request);
             }catch (AuthenticationException e){
@@ -76,6 +77,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
         String tokenWithPrefix = httpRequest.getHeader(jwtUtil.getHeader().toLowerCase());
+
+
 
         if(tokenWithPrefix != null && (tokenWithPrefix.startsWith(jwtUtil.getPrefix())|| tokenWithPrefix.startsWith(jwtUtil.getPrefix().toLowerCase()))){
             jwt = tokenWithPrefix.substring(jwtUtil.getPrefix().length());

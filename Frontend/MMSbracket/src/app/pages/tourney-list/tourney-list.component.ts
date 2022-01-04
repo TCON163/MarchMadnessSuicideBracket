@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { CurrentUser } from 'src/app/interfaces/auth';
 import { Tourney, TPlayer } from 'src/app/interfaces/tourney';
 import { TourneyService } from 'src/app/tourney.service';
 
@@ -34,26 +35,28 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
 
-    this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
+    this.tourneyService.getListOfTourneyByPlayerId(CurrentUser.playerId).subscribe(data => {
       this.tourneyList = data;
       console.log(data)
     }, error => console.log(error))
 
 
-    this.tourneyService.getSetOfTPlayerByPlayerId(this.id).subscribe(data => {
+    this.tourneyService.getSetOfTPlayerByPlayerId(CurrentUser.playerId).subscribe(data => {
       this.tPlayerList = data;
       console.log(data)
     }, error => console.log(error))
   }
 
   ngOnInit(): void {
-    this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
+   
+
+    this.tourneyService.getListOfTourneyByPlayerId(CurrentUser.playerId).subscribe(data => {
       this.tourneyList = data;
       console.log(data)
     }, error => console.log(error))
 
 
-    this.tourneyService.getSetOfTPlayerByPlayerId(this.id).subscribe(data => {
+    this.tourneyService.getSetOfTPlayerByPlayerId(CurrentUser.playerId).subscribe(data => {
       this.tPlayerList = data;
       console.log(data)
     }, error => console.log(error))
