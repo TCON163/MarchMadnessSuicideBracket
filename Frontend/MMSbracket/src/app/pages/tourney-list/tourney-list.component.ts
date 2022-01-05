@@ -124,7 +124,7 @@ export class TourneyListComponent implements OnInit, OnChanges {
   }
 
   isAdmin(tourney: Tourney): boolean {
-    if(tourney.headGuy.adminId === CurrentUser.playerId){
+    if(tourney.headGuy.adminId === Number.parseInt(<string>localStorage.getItem("playerId"))){
       return true;
     }
     return false;

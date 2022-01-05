@@ -11,9 +11,9 @@ export class HomeComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
-    let id = Number.parseInt(<string>localStorage.getItem("playerId"));
+    let id = <string>localStorage.getItem("playerId");
     console.log(id)
-    if (id !== NaN){
+    if (id !== null){
       this.loggedIn = true;
     }
   }

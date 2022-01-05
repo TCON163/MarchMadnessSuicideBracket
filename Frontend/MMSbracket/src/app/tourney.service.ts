@@ -39,7 +39,7 @@ export class TourneyService {
 
   getTourneyByTouneyId(id: number): Observable<Tourney> {
 
-    return this.client.get<Tourney>(this.url + "/tourney", this.httpOptions);
+    return this.client.get<Tourney>(this.url + "/tourney/"+id, this.httpOptions);
   }
 
   getListOfGamesByDate(date: DateDTO): Observable<Game[]>{

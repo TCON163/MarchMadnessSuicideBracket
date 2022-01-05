@@ -82,7 +82,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         if(tokenWithPrefix != null && (tokenWithPrefix.startsWith(jwtUtil.getPrefix())|| tokenWithPrefix.startsWith(jwtUtil.getPrefix().toLowerCase()))){
             jwt = tokenWithPrefix.substring(jwtUtil.getPrefix().length());
-
+            System.out.println(jwt);
             try {
                 jwtUtil.validateToken(jwt);
                 username = jwtUtil.getUsernameFromToken(jwt);
@@ -91,6 +91,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             } catch (ExpiredJwtException e) {
                 throw new AuthenticationException("JWT Token has expired.");
             } catch (Exception e) {
+                e.printStackTrace();
+
                 throw new AuthenticationException("This token has expired.");
             }
         } else {

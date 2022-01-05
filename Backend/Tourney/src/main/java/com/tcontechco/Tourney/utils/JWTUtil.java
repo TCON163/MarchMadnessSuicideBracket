@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@Scope("singleton")
 @Getter @Setter
 public class JWTUtil {
     @Value("${jwt.header}")
