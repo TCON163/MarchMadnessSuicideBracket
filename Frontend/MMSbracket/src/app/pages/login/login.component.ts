@@ -3,6 +3,7 @@ import { CurrentUser, LoginDTO, Player } from 'src/app/interfaces/auth';
 
 import { AuthService } from 'src/app/auth.service';
 import { HttpResponse } from '@angular/common/http';
+import { TourneyService } from 'src/app/tourney.service';
 
 @Component({
   selector: 'app-login',
@@ -15,8 +16,10 @@ export class LoginComponent implements OnInit {
 
   credentials: LoginDTO = new LoginDTO();
 
+  jwt!:string;
 
-  constructor(private auth: AuthService) { }
+
+  constructor(private auth: AuthService, private user:TourneyService) { }
 
   ngOnInit(): void {
   }
@@ -26,28 +29,38 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
-    this.auth.login(this.credentials).subscribe((data) => {
+    this.auth.login(this.credentials).subscribe(data => {
+
+        console.log(data)
+
+        localStorage.setItem("JWT",  <string>data.headers.get("Authorization"));
+        this.jwt = <string>data.headers.get("Authorization");
+        console.log(localStorage.getItem("JWT"))
 
 
 
-        localStorage.setItem("JWT", <string>data.headers.get("Authorization"))
-
-        localStorage.setItem("username", <string>data.body?.username)
-        localStorage.setItem("playerId", <string> data.body?.playerId.toString())
-        localStorage.setItem("firstName", <string> data.body?.firstName)
-        localStorage.setItem("lastName", <string>data.body?.lastName)
-        localStorage.setItem("email", <string> data.body?.email)
-
-      
 
 
 
-        this.logInToApp();
+
 
 
 
 
     })
+
+setTimeout(()=>{
+  this.user.getCurrentUser(this.jwt).subscribe(data =>{
+    localStorage.setItem("username", data.username)
+    localStorage.setItem("playerId", data.playerId.toString())
+    localStorage.setItem("firstName", data.firstName)
+    localStorage.setItem("lastName", data.lastName)
+    localStorage.setItem("email", data.email)
+
+    this.logInToApp();
+  }, error => console.log(error))
+},1000)
+
   }
 
 }

@@ -14,7 +14,7 @@ export class AuthService {
   constructor(private client: HttpClient ) { }
 
   handleError(error: HttpErrorResponse) {
-    if (error.status == 500 && error.url === "http://18.212.102.32:8082/user-service/Nova/login"){
+    if (error.status == 500 && error.url === "http://localhost:5000/api/v1/login"){
       alert("Login Failed!");
       return throwError(() => error);
     } else {
@@ -22,10 +22,10 @@ export class AuthService {
     }
   }
 
-  login(cred: LoginDTO): Observable<HttpResponse<Player>> {
+  login(cred: LoginDTO) {
 
 
-    return this.client.post<Player>(this.url +"/login", cred,{ observe:"response"}).pipe( catchError(this.handleError));
+    return this.client.post<any>(this.url +"/login", cred,{observe:"response"}).pipe();
   }
 
 

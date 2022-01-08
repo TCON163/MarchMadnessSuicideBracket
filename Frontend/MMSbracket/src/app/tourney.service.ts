@@ -69,5 +69,10 @@ export class TourneyService {
     return this.client.get<Picks>(this.url+"picks/" + tPlayerId + "/team/" + teamId + "/game/" + gameId, this.httpOptions);
   }
 
+  getCurrentUser(token:string):Observable<Player>{
+    const httpHeader = new HttpHeaders().set("Authorization",token);
+    return this.client.get<Player>(this.url+"/players/currentUser", {headers:httpHeader})
+  }
+
 
 }

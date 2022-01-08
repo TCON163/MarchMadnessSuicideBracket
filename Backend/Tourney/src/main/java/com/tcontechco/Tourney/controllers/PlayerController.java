@@ -5,6 +5,7 @@ import com.tcontechco.Tourney.models.Player;
 import com.tcontechco.Tourney.models.TPlayer;
 import com.tcontechco.Tourney.models.Tourney;
 import com.tcontechco.Tourney.services.PlayerService;
+import com.tcontechco.Tourney.utils.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,11 @@ public class PlayerController {
     @GetMapping("/players")
     public ResponseEntity<List<Player>> getAllPlayer(){
         return ResponseEntity.ok(service.getAll());}
+
+    @GetMapping("/players/currentUser")
+    public ResponseEntity<Player> getCurrentUser(){
+        return ResponseEntity.ok(CurrentUser.getPlayer());
+    }
 
 
     @GetMapping("/players/{id}")
