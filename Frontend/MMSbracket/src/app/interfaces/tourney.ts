@@ -28,7 +28,7 @@ export class Picks {
     pickId!: number;
     pick!: Team;
     player!: TPlayer;
-    winner!: boolean;
+    winner!: boolean|null;
     game!: Game;
 
 }
