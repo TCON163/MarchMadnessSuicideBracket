@@ -56,6 +56,7 @@ public class TourneyController {
     @CrossOrigin
     @PostMapping("/tourney")
     public ResponseEntity<Tourney> createTourney(@RequestBody Tourney tourney){
+        System.out.println(CurrentUser.getPlayer().getPlayerId());
         Admin a = adminService.getByID(CurrentUser.getPlayer().getPlayerId());
         System.out.println(a.getAdminId());
 

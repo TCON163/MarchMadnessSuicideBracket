@@ -46,8 +46,8 @@ public class TPlayerController {
         Tourney tourney = tourneyService.getTourneyById(tourneyId);
         Set<TPlayer> set = tourney.getPlayers();
         Set<Integer> playersId = set.stream().map(tPlayer -> tPlayer.getPlayer().getPlayerId()).collect(Collectors.toSet());
-        if (!playersId.contains(id)){
-            Player p = playerService.getById(id);
+        if (!playersId.contains(CurrentUser.getPlayer().getPlayerId())){
+            Player p = playerService.getById(CurrentUser.getPlayer().getPlayerId());
             tp.setPlayer(p);
             tp.setTourney(tourney);
 

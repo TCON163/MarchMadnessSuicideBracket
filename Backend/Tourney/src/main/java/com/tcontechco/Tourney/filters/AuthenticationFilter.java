@@ -78,6 +78,10 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         String tokenWithPrefix = httpRequest.getHeader(jwtUtil.getHeader().toLowerCase());
 
+        if(tokenWithPrefix.startsWith("\"")){
+            tokenWithPrefix.replace("\"","");
+        }
+
 
 
         if(tokenWithPrefix != null && (tokenWithPrefix.startsWith(jwtUtil.getPrefix())|| tokenWithPrefix.startsWith(jwtUtil.getPrefix().toLowerCase()))){

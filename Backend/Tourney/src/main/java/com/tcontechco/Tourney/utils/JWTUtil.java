@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-@Scope("singleton")
 @Getter @Setter
 public class JWTUtil {
     @Value("${jwt.header}")

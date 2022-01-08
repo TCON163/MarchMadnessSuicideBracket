@@ -52,7 +52,7 @@ export class TourneyService {
     return this.client.post<Tourney>(this.url + "/tourney", tourney,this.httpOptions)
   }
 
-  addTPtoTourney( tourneyId: number, playerId: number): Observable<TPlayer>{
+  addTPtoTourney( playerId: number,tourneyId: number): Observable<TPlayer>{
 
     let body = new TPlayer();
     body.alive = true;

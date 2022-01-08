@@ -47,13 +47,13 @@ public class PlayerController {
         return ResponseEntity.ok(service.getPlayerByUsername(username));
     }
 
-    @CrossOrigin(origins = "http://localhost:4200", allowedHeaders = "Authorization")
+
     @GetMapping("/players/tps/{id}")
     public ResponseEntity<Set<TPlayer>> getTPforPlayer(@PathVariable Integer id){
         return ResponseEntity.ok(service.getTPfromId(id));
     }
 
-    @CrossOrigin(origins = "http://localhost:4200", exposedHeaders = "Authorization")
+
     @GetMapping("/players/tourney/{id}")
     public ResponseEntity<List<Tourney>> getTourneyByPlayerId(@PathVariable Integer id){
         return ResponseEntity.ok(service.getTourneyByPlayerId(id));
