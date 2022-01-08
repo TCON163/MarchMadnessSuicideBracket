@@ -19,11 +19,11 @@ public class Picks {
     @Column(name = "pick_id", unique = true)
     private Integer pickId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "team_id")
     private Team pick;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "tPId")
     @JsonIgnore
     private TPlayer player;
@@ -31,7 +31,7 @@ public class Picks {
     @Column
     private Boolean winner;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "game_id")
     private Game game;
 }

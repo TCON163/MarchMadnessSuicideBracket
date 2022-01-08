@@ -39,5 +39,9 @@ public class PickServices {
         return repo.save(picks);
     }
 
+    public void delete(Picks picks){
+        repo.delete(picks);
+    }
+
 
 }

@@ -41,15 +41,28 @@ public class PickController {
     }
 
     @CrossOrigin
-    @PostMapping("/picks/{tplayerId}/team/{teamId}/game/{gameId}")
-    public ResponseEntity<Picks> createPick(@RequestBody Picks picks, @PathVariable Integer tplayerId, @PathVariable Integer teamId, @PathVariable Integer gameId){
+    @PostMapping("/picks/{tplayerId}/team/{teamId}/game/{gameId}/day/{gameDay}")
+    public ResponseEntity<Picks> createPick(@RequestBody Picks picks, @PathVariable Integer tplayerId, @PathVariable Integer teamId, @PathVariable Integer gameId,@PathVariable Integer gameDay){
         TPlayer tPlayer = tpService.findById(tplayerId);
         Game game = gameService.findById(gameId);
         Team team = teamService.getTeamById(teamId);
         picks.setPick(team);
         picks.setGame(game);
         picks.setPlayer(tPlayer);
-        tPlayer.getTpPicks().add(picks);
+
+        List<Picks> picksList= tPlayer.getTpPicks();
+        try{
+            Picks originalPick = picksList.get(gameDay);
+
+
+
+            services.delete(originalPick);
+            tPlayer.getTpPicks().remove(originalPick);
+            tPlayer.getTpPicks().add(picks);
+        }catch (IndexOutOfBoundsException e){
+            picksList.add(picks);
+            picks = services.createOrUpdatePicks(picks);
+        }
         tpService.createTP(tPlayer);
         return ResponseEntity.ok(services.createOrUpdatePicks(picks));
     }

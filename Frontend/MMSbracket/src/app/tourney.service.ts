@@ -64,9 +64,10 @@ export class TourneyService {
     return this.client.get<Player>(this.url+"/players/username/"+ username,this.httpOptions);
   }
 
-  makePicks(tPlayerId: number, teamId: number, gameId:number): Observable<Picks> {
-
-    return this.client.get<Picks>(this.url+"picks/" + tPlayerId + "/team/" + teamId + "/game/" + gameId, this.httpOptions);
+  makePicks(tPlayerId: number, teamId: number, gameId:number, gameDay:number): Observable<Picks> {
+    let p:Picks = new Picks();
+    p.winner = null;
+    return this.client.post<Picks>(this.url+"/picks/" + tPlayerId + "/team/" + teamId + "/game/" + gameId +"/day/"+ gameDay,p, this.httpOptions);
   }
 
   getCurrentUser(token:string):Observable<Player>{

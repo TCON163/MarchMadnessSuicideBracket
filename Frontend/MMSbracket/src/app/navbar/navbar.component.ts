@@ -6,12 +6,12 @@ import { CurrentUser } from '../interfaces/auth';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnChanges {
 
   @Input() loggedIn!: boolean;
   @Output() logout = new EventEmitter<boolean>();
 
-  username = CurrentUser.username;
+  username = <string>localStorage.getItem("username");
 
 
 
@@ -19,6 +19,10 @@ export class NavbarComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+      this.username = <string>localStorage.getItem("username");
   }
 
 
