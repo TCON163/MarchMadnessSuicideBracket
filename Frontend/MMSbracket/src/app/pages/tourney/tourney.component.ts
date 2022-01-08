@@ -84,7 +84,7 @@ pickForm = this.fb.group({
                 this.gameList = data;
                 console.log(data)
                 data.forEach(game => {
-                  console.log(game)
+
                     if(!this.teamUsedIdList.includes(game.home.teamId)){
 
                       this.teamList.push(game.home)
@@ -103,7 +103,7 @@ pickForm = this.fb.group({
 
 
   doesPlayerHavePick(tp: TPlayer): boolean {
-    console.log(tp)
+
     if(tp.tpPicks.length > this.dayOfTourney){
       return true;
     }
@@ -133,24 +133,10 @@ pickForm = this.fb.group({
   }
 
   makePick(){
-    console.log(this.gameForPick.time)
-    console.log(this.gameForPick.date)
 
-
-
-    let newdate = this.gameForPick.date +"T" + this.gameForPick.time;
-
-    let gameDate = new Date(newdate);
-    if(!this.doesPlayerHavePick(this.currentTPlayer)){
-      if(Date.now() <gameDate.getTime()){
-        this.tService.makePicks(this.currentTPlayer.tpid,this.teamForPick.teamId, this.gameForPick.gameId).subscribe(data => console.log(data),err => console.log(err))
+        this.tService.makePicks(this.currentTPlayer.tpid,this.teamForPick.teamId, this.gameForPick.gameId, this.dayOfTourney).subscribe(data => console.log(data),err => console.log(err))
         window.location.reload();
-      }else{
-        alert("Too late to switch your pick")
-      }
-    } else{
-      alert("You already have a pick")
-    }
+
 
   }
 
@@ -160,13 +146,20 @@ pickForm = this.fb.group({
 
   }
 
+  findTeamByTeamName(name:string):Team{
+    return this.teamList.filter(t=> t.teamName === name)[0]
+  }
+
   setGameId(e: any){
-    let team: Team = e.target.value;
-    this.gameForPick = this.findGameByTeam(team);
+    let teamName: string = e.target.value;
+    this.teamForPick = this.findTeamByTeamName(teamName)
+    this.gameForPick = this.findGameByTeam(this.teamForPick);
     console.log("It's happening")
-    this.teamForPick = team;
-    console.log(team)
+
+    console.log(this.teamForPick)
     console.log(this.gameForPick)
+
+
   }
 
 }

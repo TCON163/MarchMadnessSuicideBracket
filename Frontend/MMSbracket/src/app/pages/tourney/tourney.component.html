@@ -36,10 +36,10 @@
           <h5>Update your pick</h5>
         </ng-template>
         <form multiple [formGroup]="pickForm">
-          <select   formControlName="teamName">
+          <select   formControlName="teamName" (change)="setGameId($event)" >
             <option *ngIf="!doesPlayerHavePick(currentTPlayer); else elseBlock" value="">Choose your Pick!</option>
             <ng-component #elseBlock><option value="currentTPlayer.tpPicks[dayOfTourney]">{{currentTPlayer.tpPicks[dayOfTourney]}}</option></ng-component>
-              <option *ngFor="let team of teamList" [ngValue]="team" (change)="setGameId($event)">
+              <option *ngFor="let team of teamList"  >
                   {{team.teamName}}
               </option>
           </select>
