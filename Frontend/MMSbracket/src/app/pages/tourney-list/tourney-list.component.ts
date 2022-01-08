@@ -65,10 +65,10 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
     //Setting the day of the Tournament.
     let currentTime = Date.now();
-    let gameDate1 = new Date("2021-12-16T00:00:00").getTime();
-    let gameDate2 = new Date("2021-12-16T00:00:00").getTime();
-    let gameDate3 = new Date("2021-12-17T00:00:00").getTime();
-    let gameDate4 = new Date("2021-12-18T00:00:00").getTime();
+    let gameDate1 = new Date("2022-03-17T00:00:00").getTime();
+    let gameDate2 = new Date("2022-03-18T00:00:00").getTime();
+    let gameDate3 = new Date("2022-03-19T00:00:00").getTime();
+    let gameDate4 = new Date("2022-03-20T00:00:00").getTime();
 
     if(currentTime <gameDate1){
       this.dayOfTourney = 0;
@@ -87,7 +87,9 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
 // started a method to get the users TPlayer from the tourney
   selectUserTPlayer(tourney: Tourney): TPlayer {
-    return this.tPlayerList.filter(tp => tp.player.playerId === Number.parseInt(<string>localStorage.getItem("playerId")))[0]
+
+    return tourney.players.filter(tp=> tp.player.playerId === Number.parseInt(<string>localStorage.getItem("playerId")))[0]
+    
 
 
   }

@@ -29,10 +29,12 @@ export class ManageTourneyComponent implements OnInit {
   addPlayer(): void {
     this.tService.getUserByUsername(this.newPlayer.username).subscribe(data => {
       this.newPlayer = data;
-    })
+    },error=>console.log(error))
 
 
     setTimeout(()=> {
+      console.log(this.newPlayer.playerId)
+      console.log(this.tourneyId)
       this.tService.addTPtoTourney(this.newPlayer.playerId, this.tourneyId).subscribe(data => {
         console.log(data);
         window.location.reload();
@@ -41,7 +43,7 @@ export class ManageTourneyComponent implements OnInit {
         alert("Cannot find a user with that username.");
       }
       )
-    }, 500)
+    }, 1000)
 
   }
 
