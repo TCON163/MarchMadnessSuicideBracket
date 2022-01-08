@@ -1,4 +1,5 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { CurrentUser } from '../interfaces/auth';
 
 @Component({
   selector: 'app-home',
@@ -10,14 +11,15 @@ export class HomeComponent implements OnInit, OnChanges {
   constructor() { }
 
   ngOnInit(): void {
-    let id = localStorage.getItem("playerId");
+    let id = <string>localStorage.getItem("playerId");
+    console.log(id)
     if (id !== null){
       this.loggedIn = true;
     }
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-      
+
   }
 
   setLoggedIn(logged:boolean){

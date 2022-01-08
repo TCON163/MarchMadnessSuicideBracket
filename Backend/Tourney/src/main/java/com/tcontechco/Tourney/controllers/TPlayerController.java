@@ -7,6 +7,7 @@ import com.tcontechco.Tourney.models.Tourney;
 import com.tcontechco.Tourney.services.PlayerService;
 import com.tcontechco.Tourney.services.TourneyPlayerService;
 import com.tcontechco.Tourney.services.TourneyService;
+import com.tcontechco.Tourney.utils.CurrentUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,13 +41,13 @@ public class TPlayerController {
     }
 
     @CrossOrigin
-    @PostMapping("/tp/{playerId}/tourney/{tourneyId}")
-    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer playerId, @PathVariable Integer tourneyId){
+    @PostMapping("/tp/{id}/tourney/{tourneyId}")
+    public ResponseEntity<TPlayer> createTP(@RequestBody TPlayer tp, @PathVariable Integer tourneyId,@PathVariable Integer id){
         Tourney tourney = tourneyService.getTourneyById(tourneyId);
         Set<TPlayer> set = tourney.getPlayers();
         Set<Integer> playersId = set.stream().map(tPlayer -> tPlayer.getPlayer().getPlayerId()).collect(Collectors.toSet());
-        if (!playersId.contains(playerId)){
-            Player p = playerService.getById(playerId);
+        if (!playersId.contains(CurrentUser.getPlayer().getPlayerId())){
+            Player p = playerService.getById(CurrentUser.getPlayer().getPlayerId());
             tp.setPlayer(p);
             tp.setTourney(tourney);
 

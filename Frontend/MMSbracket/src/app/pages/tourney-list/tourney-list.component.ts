@@ -1,5 +1,6 @@
 import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
+import { CurrentUser } from 'src/app/interfaces/auth';
 import { Tourney, TPlayer } from 'src/app/interfaces/tourney';
 import { TourneyService } from 'src/app/tourney.service';
 
@@ -26,7 +27,7 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
 
 
-  id: number = Number(localStorage.getItem("playerId"));
+  id: number = Number.parseInt(<string>localStorage.getItem("playerId"));
 
 
 
@@ -47,6 +48,8 @@ export class TourneyListComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+
+
     this.tourneyService.getListOfTourneyByPlayerId(this.id).subscribe(data => {
       this.tourneyList = data;
       console.log(data)
@@ -84,15 +87,16 @@ export class TourneyListComponent implements OnInit, OnChanges {
 
 // started a method to get the users TPlayer from the tourney
   selectUserTPlayer(tourney: Tourney): TPlayer {
-    let tpidList = this.tPlayerList.map(tp => tp.tpid)
+    return this.tPlayerList.filter(tp => tp.player.playerId === Number.parseInt(<string>localStorage.getItem("playerId")))[0]
 
-    return tourney.players.filter(player => tpidList.includes(player.tpid))[0]
+
   }
 
 
 
   needsToPick(tourney: Tourney): boolean{
     let tp = this.selectUserTPlayer(tourney);
+    console.log(tp)
 
     if(tp.alive){
       if(tp.tpPicks.length <= this.dayOfTourney) {
@@ -120,7 +124,7 @@ export class TourneyListComponent implements OnInit, OnChanges {
   }
 
   isAdmin(tourney: Tourney): boolean {
-    if(tourney.headGuy.adminId === Number(localStorage.getItem("playerId"))){
+    if(tourney.headGuy.adminId === Number.parseInt(<string>localStorage.getItem("playerId"))){
       return true;
     }
     return false;
@@ -137,14 +141,14 @@ export class TourneyListComponent implements OnInit, OnChanges {
   onSubmit(){
 
     let tid: number;
-    this.tourneyService.createTourney(this.tourney, this.id).subscribe(data =>{
+    this.tourneyService.createTourney(this.tourney).subscribe(data =>{
    tid = data.tourneyId;
 
     }, err => console.error(err))
 
 
     setTimeout(()=>{
-      this.tourneyService.addTPtoTourney(this.id, tid).subscribe(tp =>{
+      this.tourneyService.addTPtoTourney( this.id,tid).subscribe(tp =>{
         console.log(tp)
       });
       this.router.navigate(["home/manage/tourney", tid])

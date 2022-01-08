@@ -40,17 +40,17 @@ pickForm = this.fb.group({
       this.tService.getTourneyByTouneyId(this.tourneyId).subscribe(data => {
         this.tourney = data;
         console.log(data)
-        this.currentTPlayer = data.players.filter(tp => tp.player.username === localStorage.getItem("username"))[0];
+        this.currentTPlayer = data.players.filter(tp => tp.player.playerId=== Number.parseInt(<string>localStorage.getItem("playerId")))[0];
         this.teamUsedIdList = data.players.filter(tp => tp.player.username === localStorage.getItem("username"))[0].tpPicks.map(picks => picks.pick.teamId)
         console.log(this.currentTPlayer)
       })
 
         //Setting the day of the Tournament.
         let currentTime = Date.now();
-        let gameDate1 = new Date("2021-12-20T00:00:00").getTime();
-        let gameDate2 = new Date("2021-12-20T00:00:00").getTime();
-        let gameDate3 = new Date("2021-12-17T00:00:00").getTime();
-        let gameDate4 = new Date("2021-12-18T00:00:00").getTime();
+        let gameDate1 = new Date("2022-03-17T00:00:00").getTime();
+        let gameDate2 = new Date("2022-03-18T00:00:00").getTime();
+        let gameDate3 = new Date("2022-03-19T00:00:00").getTime();
+        let gameDate4 = new Date("2022-03-20T00:00:00").getTime();
 
               if(currentTime <gameDate1){
                 this.dayOfTourney = 0;
@@ -84,7 +84,9 @@ pickForm = this.fb.group({
                 this.gameList = data;
                 console.log(data)
                 data.forEach(game => {
+                  console.log(game)
                     if(!this.teamUsedIdList.includes(game.home.teamId)){
+
                       this.teamList.push(game.home)
                     }
                     if(!this.teamUsedIdList.includes(game.away.teamId)){
@@ -101,6 +103,7 @@ pickForm = this.fb.group({
 
 
   doesPlayerHavePick(tp: TPlayer): boolean {
+    console.log(tp)
     if(tp.tpPicks.length > this.dayOfTourney){
       return true;
     }

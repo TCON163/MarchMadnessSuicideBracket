@@ -28,7 +28,7 @@
           </tbody>
         </table>
       </div>
-      <div class="col">
+      <div class="col" *ngIf="currentTPlayer !== undefined">
         <div *ngIf="!doesPlayerHavePick(currentTPlayer); else elseBlock">
           <h5 >Pick a Team</h5>
         </div>

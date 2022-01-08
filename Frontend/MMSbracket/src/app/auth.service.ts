@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpResponse , HttpErrorResponse} from "@angular/common/http";
 import { Admin, LoginDTO, Player, RegisterPlayer } from './interfaces/auth';
-import { Observable } from 'rxjs';
+import { Observable, throwError} from "rxjs";
+import { retry , catchError} from "rxjs/operators"
 
 @Injectable({
   providedIn: 'root'
@@ -12,20 +13,28 @@ export class AuthService {
 
   constructor(private client: HttpClient ) { }
 
-  login(cred: LoginDTO): Observable<Player> {
+  handleError(error: HttpErrorResponse) {
+    if (error.status == 500 && error.url === "http://localhost:5000/api/v1/login"){
+      alert("Login Failed!");
+      return throwError(() => error);
+    } else {
+      return throwError(() => error);
+    }
+  }
 
-    const headerOptions = new HttpHeaders();
-    headerOptions.set("Content-Type", "application/json")
-    return this.client.post<Player>(this.url +"/login", cred,{headers: headerOptions});
+  login(cred: LoginDTO) {
+
+
+    return this.client.post<any>(this.url +"/login", cred,{observe:"response"}).pipe();
   }
 
 
   register(newUser: RegisterPlayer): Observable<Player>{
 
     const headerOptions = new HttpHeaders();
-    
+
     headerOptions.set("Content-Type", "application/json");
-    return this.client.post<Player>(this.url + "/players", newUser, {headers: headerOptions});
+    return this.client.post<Player>(this.url + "/register", newUser, {headers: headerOptions});
   }
 
 

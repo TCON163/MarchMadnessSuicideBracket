@@ -13,11 +13,21 @@ export class Player {
 }
 
 export class CurrentUser {
-    public static username:string;
-    public static email:string;
-    public static firstName: string;
-    public static lastName: string;
-    public static playerId: number;
+    public static username:string | '' | any;
+    public static email:string | '' | any;
+    public static firstName: string | '' | any;
+    public static lastName: string | '' | any;
+    public static playerId: number | '' | any;
+  
+
+    public static clear(){
+      this.username = '';
+      this.email = '';
+      this.firstName = '';
+      this.lastName = '';
+      this.playerId = '';
+
+    }
 }
 
 

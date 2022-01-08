@@ -15,11 +15,11 @@ const routes: Routes = [
   {path: "manage/tourney/:tourneyId", component: ManageTourneyComponent}
  ]},
  {path: "register", component: RegisterComponent},
- 
+
 ]
 
 @NgModule({
-  
+
   imports: [
     RouterModule.forRoot(routes)
   ],
