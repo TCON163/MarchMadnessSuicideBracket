@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.tcontechco</groupId>
 	<artifactId>Tourney</artifactId>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>Tourney</name>
 	<description>Demo project for Spring Boot</description>
