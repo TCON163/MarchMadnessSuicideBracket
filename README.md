@@ -1,5 +1,7 @@
 ***We moved to a mono server architech. The backend is in the BackEnd/Tourney directory. 12/13/21 - TC
 
+Created a CICD pipeline for frontend  05/25/22 - TC
+
 
 
 # March Madness Survivor Pool
